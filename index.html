@@ -582,25 +582,60 @@ const makeLayer = (cv, fsz, gain, para) => {
   return L;
 };
 
+/* gold black hole (own build): ring draws itself → red glow swells → disk opens → flash + push-in → orbiting comet sparks */
+let G0 = null;
+const SPARKS = Array.from({length: 26}, (_, k) => ({ring: k < 7, rd: 1.7 + Math.random() * 3.2, ph: Math.random() * 6.283, sp: .8 + Math.random() * .6}));
+const ease = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
+const dirChar = a => { // stroke along the ring's tangent (screen y points down)
+  let d = Math.atan2(Math.cos(a), -Math.sin(a)); if (d < 0) d += Math.PI;
+  return d < .39 || d > 2.75 ? 45 : d < 1.18 ? 92 : d < 1.96 ? 124 : 47; // - \ | /
+};
 const renderGarg = (L, o, t) => {
-  const R = o.R, cosI = .24, [c0, c1, r0, r1] = L.box(o, R * 5.4, R * 2.2);
+  if (G0 === null) G0 = t;
+  const T = t - G0, cosI = .24;
+  const ringP = ease(T / 1.6), glowP = ease((T - .8) / 1.4), diskP = ease((T - 2) / 1.8);
+  const flash = Math.exp(-Math.pow(T - 3.9, 2) / .06);
+  const R = o.R * (.8 + .2 * ease((T - 3.8) / 1.6)), dMax = 1.45 + 3.85 * diskP, boost = 1 + 1.6 * flash;
+  const [c0, c1, r0, r1] = L.box({x: o.x, y: o.y}, R * 5.4, R * 2.8);
   for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
     const i = r * L.COLS + c, X = (c * L.CW + L.CW / 2 - o.x) / R, Y = (r * L.CH + L.CH / 2 - o.y) / R;
-    const rr = Math.hypot(X, Y), Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X);
-    let v = 0;
-    if (rd > 1.45 && rd < 5.3) {
+    const rr = Math.hypot(X, Y), a = Math.atan2(Y, X), Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X);
+    let v = 0, p = 0, ring = false, front = false;
+    if (rd > 1.45 && rd < dMax) {
       const pp = ph - 1.6 / Math.pow(rd, 1.5) * t;
       const tex = .72 + .18 * Math.sin(9 * rd + 4 * pp) + .12 * Math.sin(23 * rd - 7 * pp + 1.3);
-      v = tex * (1 + .55 * Math.cos(ph)) * Math.exp(-(rd - 1.45) / 2.2) * Math.min(1, (5.3 - rd) * 1.2) * Math.min(1, (rd - 1.45) * 6);
-      if (Y < 0 && rr < 1.02) v = 0;
+      v = tex * (1 + .55 * Math.cos(ph)) * Math.exp(-(rd - 1.45) / 2.2) * Math.min(1, (dMax - rd) * 1.2) * Math.min(1, (rd - 1.45) * 6);
+      if (Y < 0 && rr < 1.02) v = 0; else front = Y > 0;
     }
-    if (rr > 1 && rr < 2.1) {
-      const a = Math.atan2(Y, X), pp = a - .9 * t;
+    if (rr > 1 && rr < 2.1 && diskP > 0) {   // far side of the disk bent over and under the shadow
+      const pp = a - .9 * t;
       const h = 1.5 * Math.exp(-(rr - 1.04) / .3) * (.72 + .2 * Math.sin(11 * rr + 5 * pp) + .15 * Math.sin(3 * pp)) * (.75 + .25 * Math.abs(Math.sin(a)));
-      v = Math.max(v, h * (1 + .35 * Math.cos(a)) + Math.exp(-Math.pow((rr - 1.07) / .05, 2)) * 1.3);
+      v = Math.max(v, h * (1 + .35 * Math.cos(a)) * diskP);
     }
-    if (rr <= 1 && !(Y > 0 && rd > 1.45 && v > 0)) { L.inten[i] = 0; continue; }
-    if (v > .16) L.put(i, Math.pow(v, .7) * 1.15, 0);
+    const sweep = ((a + Math.PI / 2) % 6.2832 + 6.2832) % 6.2832;
+    if (Math.abs(rr - 1.07) < .075 && sweep < ringP * 6.2832) { v = Math.max(v, 1.25); ring = true; }
+    if (rr > 1 && rr < 3.2 && glowP > 0) {
+      const g = glowP * .7 * Math.exp(-(rr - 1.05) / .55) * (.85 + .15 * Math.sin(3 * a - 1.3 * t));
+      if (g > v) { v = g; p = 4; }
+    }
+    if (rr <= 1 && !front) { L.inten[i] = 0; continue; }
+    v *= boost;
+    if (v > .16) { L.put(i, Math.pow(v, .7) * 1.15, p); if (ring) L.chr[i] = dirChar(a); }
+  }
+  if (diskP < .6) return;
+  const show = ease((T - 3.6) / .8);
+  for (const s of SPARKS) {
+    for (let k = 0; k < 9; k++) {
+      let X, Y;
+      if (s.ring) { const ang = s.ph + 1.1 * s.sp * T - k * .045; X = 1.16 * Math.cos(ang); Y = 1.16 * Math.sin(ang); }
+      else { const ang = s.ph + 2.4 * s.sp / Math.pow(s.rd, 1.5) * T - k * .05 / Math.sqrt(s.rd); X = s.rd * Math.cos(ang); Y = s.rd * Math.sin(ang) * cosI; if (Y < 0 && Math.hypot(X, Y) < 1.02) continue; }
+      const c = ((o.x + X * R) / L.CW) | 0, r = ((o.y + Y * R) / L.CH) | 0;
+      if (c < 0 || r < 0 || c >= L.COLS || r >= L.ROWS) continue;
+      const i = r * L.COLS + c, v = (1 - k / 9) * show;
+      if (v * L.gain <= L.inten[i] && k) continue;
+      L.inten[i] = Math.min(1, (k ? v : 1.2 * show)) * L.gain; L.pal[i] = 0;
+      L.chr[i] = "@*+=~-:.."[k].charCodeAt(0);
+    }
   }
 };
 const renderQuasar = (L, o, t) => {
