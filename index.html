@@ -28,7 +28,7 @@ h3{font-size:20px}
 /* ---------- living background ---------- */
 #far,#mid,#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0}
 #far{opacity:.62;filter:blur(.5px) saturate(.85)}
-#mid{opacity:.82;filter:blur(.2px)}
+#mid{opacity:.9}
 #hud{position:fixed;left:14px;bottom:10px;z-index:2;font:11px "JetBrains Mono",monospace;color:rgba(201,166,255,.55);pointer-events:none;white-space:nowrap}
 .hero .tag,.hero .count span{text-shadow:0 0 8px #000,0 0 18px #000}
 .hero .tag{display:inline-block;background:rgba(7,4,12,.72);padding:8px 16px;border-radius:10px;backdrop-filter:blur(3px)}
@@ -536,7 +536,8 @@ const PAL = {
   gal:    [[80,60,150],[130,110,215],[180,165,250],[225,215,255],[255,255,255]],
   rain:   [[40,14,80],[80,32,160],[140,80,255],[200,170,255],[255,255,255]],
   red:    [[70,8,20],[150,20,45],[255,45,79],[255,140,160],[255,230,235]],
-  star:   [[90,80,120],[150,140,190],[210,200,255],[240,235,255],[255,255,255]]
+  star:   [[90,80,120],[150,140,190],[210,200,255],[240,235,255],[255,255,255]],
+  amber:  [[130,74,38],[184,110,56],[228,158,92],[250,212,168],[255,250,238]]
 };
 const PKEYS = Object.keys(PAL), LV = 12;
 const COLORS = PKEYS.map(k => Array.from({length: LV}, (_, i) => {
@@ -567,6 +568,10 @@ const makeLayer = (cv, fsz, gain, para) => {
   L.draw = () => {
     const ctx = L.ctx, buckets = new Map(); let n = 0;
     ctx.clearRect(0, 0, L.W, L.H);
+    if (L.haze && L.haze.a > 0) { const z = L.haze; ctx.save(); ctx.translate(z.x, z.y); ctx.rotate(TILT); ctx.scale(1, .42);
+      const g = ctx.createRadialGradient(0, 0, z.R * .9, 0, 0, z.R * 7); g.addColorStop(0, `rgba(255,150,70,${.22 * z.a})`); g.addColorStop(.35, `rgba(200,100,40,${.1 * z.a})`); g.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = g; ctx.fillRect(-z.R * 7, -z.R * 7, z.R * 14, z.R * 14); ctx.restore();
+      ctx.save(); const g2 = ctx.createRadialGradient(z.x, z.y, 0, z.x, z.y, z.R * 1.05); g2.addColorStop(0, "rgba(0,0,0,.9)"); g2.addColorStop(.92, "rgba(0,0,0,.85)"); g2.addColorStop(1, "rgba(0,0,0,0)"); ctx.fillStyle = g2; ctx.beginPath(); ctx.arc(z.x, z.y, z.R * 1.05, 0, 6.3); ctx.fill(); ctx.restore(); }
     for (let i = 0; i < L.N; i++) {
       const v = L.inten[i]; if (v <= .05) continue;
       const key = L.pal[i] * LV + Math.min(LV - 1, (v * (LV - 1)) | 0);
@@ -582,45 +587,44 @@ const makeLayer = (cv, fsz, gain, para) => {
   return L;
 };
 
-/* gold black hole (own build): ring draws itself → red glow swells → disk opens → flash + push-in → orbiting comet sparks */
+/* gold black hole (own build): tilted wide disk, cream-hot inner edge fading to dim amber, stroked photon ring, warm haze.
+   Intro: ring draws itself → warm glow swells → disk opens → flash + push-in → orbiting comet sparks */
 let G0 = null;
-const SPARKS = Array.from({length: 26}, (_, k) => ({ring: k < 7, rd: 1.7 + Math.random() * 3.2, ph: Math.random() * 6.283, sp: .8 + Math.random() * .6}));
+const SPARKS = Array.from({length: 30}, (_, k) => ({ring: k < 7, rd: 1.6 + Math.random() * 4.5, ph: Math.random() * 6.283, sp: .8 + Math.random() * .6}));
 const ease = x => x <= 0 ? 0 : x >= 1 ? 1 : x * x * (3 - 2 * x);
-const dirChar = a => { // stroke along the ring's tangent (screen y points down)
-  let d = Math.atan2(Math.cos(a), -Math.sin(a)); if (d < 0) d += Math.PI;
-  return d < .39 || d > 2.75 ? 45 : d < 1.18 ? 92 : d < 1.96 ? 124 : 47; // - \ | /
-};
+const TILT = .3, CT = Math.cos(TILT), ST = Math.sin(TILT);
+const dirChar = a => { let d = Math.atan2(Math.cos(a), -Math.sin(a)); if (d < 0) d += Math.PI; return d < .39 || d > 2.75 ? 45 : d < 1.18 ? 92 : d < 1.96 ? 124 : 47; };
+const toScreen = (x, y) => [x * CT - y * ST, x * ST + y * CT];
 const renderGarg = (L, o, t) => {
   if (G0 === null) G0 = t;
-  const T = t - G0, cosI = .24;
+  const T = t - G0, cosI = .36;
   const ringP = ease(T / 1.6), glowP = ease((T - .8) / 1.4), diskP = ease((T - 2) / 1.8);
   const flash = Math.exp(-Math.pow(T - 3.9, 2) / .06);
-  const R = o.R * (.8 + .2 * ease((T - 3.8) / 1.6)), dMax = 1.45 + 3.85 * diskP, boost = 1 + 1.6 * flash;
-  const [c0, c1, r0, r1] = L.box({x: o.x, y: o.y}, R * 5.4, R * 2.8);
+  const R = o.R * (.8 + .2 * ease((T - 3.8) / 1.6)), dMax = 1.35 + 5.2 * diskP, boost = 1 + 1.4 * flash;
+  L.haze = {x: o.x, y: o.y, R, a: glowP};
+  const [c0, c1, r0, r1] = L.box({x: o.x, y: o.y}, R * 7, R * 3.6);
   for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
-    const i = r * L.COLS + c, X = (c * L.CW + L.CW / 2 - o.x) / R, Y = (r * L.CH + L.CH / 2 - o.y) / R;
-    const rr = Math.hypot(X, Y), a = Math.atan2(Y, X), Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X);
-    let v = 0, p = 0, ring = false, front = false;
-    if (rd > 1.45 && rd < dMax) {
-      const pp = ph - 1.6 / Math.pow(rd, 1.5) * t;
-      const tex = .72 + .18 * Math.sin(9 * rd + 4 * pp) + .12 * Math.sin(23 * rd - 7 * pp + 1.3);
-      v = tex * (1 + .55 * Math.cos(ph)) * Math.exp(-(rd - 1.45) / 2.2) * Math.min(1, (dMax - rd) * 1.2) * Math.min(1, (rd - 1.45) * 6);
+    const i = r * L.COLS + c, Xs = (c * L.CW + L.CW / 2 - o.x) / R, Ys = (r * L.CH + L.CH / 2 - o.y) / R;
+    const X = Xs * CT + Ys * ST, Y = -Xs * ST + Ys * CT;            // into the disk's tilted frame
+    const rr = Math.hypot(Xs, Ys), a = Math.atan2(Ys, Xs), Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X);
+    let v = 0, ring = false, front = false;
+    if (rd > 1.35 && rd < dMax) {
+      const pp = ph - 1.5 / Math.pow(rd, 1.5) * t;
+      const tex = .62 + .22 * Math.sin(14 * rd + .7 * pp) + .16 * Math.sin(31 * rd - 1.4 * pp + 1.1) * Math.sin(2 * pp + rd);
+      v = tex * (1 + .22 * Math.cos(ph + .4)) * (Math.exp(-(rd - 1.35) / 1.7) * 1.2 + .1) * Math.min(1, (dMax - rd) * .5) * Math.min(1, (rd - 1.35) * 5);
       if (Y < 0 && rr < 1.02) v = 0; else front = Y > 0;
     }
-    if (rr > 1 && rr < 2.1 && diskP > 0) {   // far side of the disk bent over and under the shadow
+    if (rr > 1 && rr < 2.3 && diskP > 0) {   // far side of the disk bent over and under the shadow
       const pp = a - .9 * t;
-      const h = 1.5 * Math.exp(-(rr - 1.04) / .3) * (.72 + .2 * Math.sin(11 * rr + 5 * pp) + .15 * Math.sin(3 * pp)) * (.75 + .25 * Math.abs(Math.sin(a)));
-      v = Math.max(v, h * (1 + .35 * Math.cos(a)) * diskP);
+      const h = 1.45 * Math.exp(-(rr - 1.04) / .46) * (.7 + .2 * Math.sin(12 * rr + 4 * pp) + .14 * Math.sin(3 * pp)) * (.72 + .28 * Math.abs(Math.sin(a - TILT)));
+      v = Math.max(v, h * diskP);
     }
     const sweep = ((a + Math.PI / 2) % 6.2832 + 6.2832) % 6.2832;
-    if (Math.abs(rr - 1.07) < .075 && sweep < ringP * 6.2832) { v = Math.max(v, 1.25); ring = true; }
-    if (rr > 1 && rr < 3.2 && glowP > 0) {
-      const g = glowP * .7 * Math.exp(-(rr - 1.05) / .55) * (.85 + .15 * Math.sin(3 * a - 1.3 * t));
-      if (g > v) { v = g; p = 4; }
-    }
+    if (Math.abs(rr - 1.06) < .07 && sweep < ringP * 6.2832) { v = Math.max(v, 1.3); ring = true; }
+    if (rr > 1 && rr < 3 && glowP > 0) v = Math.max(v, glowP * .42 * Math.exp(-(rr - 1.05) / .5));
     if (rr <= 1 && !front) { L.inten[i] = 0; continue; }
     v *= boost;
-    if (v > .16) { L.put(i, Math.pow(v, .7) * 1.15, p); if (ring) L.chr[i] = dirChar(a); }
+    if (v > .12) { L.put(i, Math.pow(v, .62) * 1.32, 6); if (ring) L.chr[i] = dirChar(a); }
   }
   if (diskP < .6) return;
   const show = ease((T - 3.6) / .8);
@@ -628,12 +632,12 @@ const renderGarg = (L, o, t) => {
     for (let k = 0; k < 9; k++) {
       let X, Y;
       if (s.ring) { const ang = s.ph + 1.1 * s.sp * T - k * .045; X = 1.16 * Math.cos(ang); Y = 1.16 * Math.sin(ang); }
-      else { const ang = s.ph + 2.4 * s.sp / Math.pow(s.rd, 1.5) * T - k * .05 / Math.sqrt(s.rd); X = s.rd * Math.cos(ang); Y = s.rd * Math.sin(ang) * cosI; if (Y < 0 && Math.hypot(X, Y) < 1.02) continue; }
+      else { const ang = s.ph + 2.4 * s.sp / Math.pow(s.rd, 1.5) * T - k * .05 / Math.sqrt(s.rd); const x = s.rd * Math.cos(ang), y = s.rd * Math.sin(ang) * cosI; if (y < 0 && Math.hypot(x, y) < 1.02) continue; [X, Y] = toScreen(x, y); }
       const c = ((o.x + X * R) / L.CW) | 0, r = ((o.y + Y * R) / L.CH) | 0;
       if (c < 0 || r < 0 || c >= L.COLS || r >= L.ROWS) continue;
       const i = r * L.COLS + c, v = (1 - k / 9) * show;
       if (v * L.gain <= L.inten[i] && k) continue;
-      L.inten[i] = Math.min(1, (k ? v : 1.2 * show)) * L.gain; L.pal[i] = 0;
+      L.inten[i] = Math.min(1, (k ? v : 1.2 * show)) * L.gain; L.pal[i] = 6;
       L.chr[i] = "@*+=~-:.."[k].charCodeAt(0);
     }
   }
@@ -673,7 +677,7 @@ let rain = [], words = [], nextWord = 1.5;
 const setup = () => {
   layers.forEach(L => L.setup());
   const W = innerWidth, H = innerHeight, m = Math.min(W, H);
-  mid.objs = mob() ? [{f: renderGarg, x: .5 * W, y: .55 * H, R: W * .09}] : [{f: renderGarg, x: .52 * W, y: .6 * H, R: m * .085}];
+  mid.objs = mob() ? [{f: renderGarg, x: .5 * W, y: .55 * H, R: W * .11}] : [{f: renderGarg, x: .5 * W, y: .6 * H, R: m * .1}];
   far.objs = mob() ? [
     {f: renderQuasar, x: .22 * W, y: .86 * H, R: W * .05},
     {f: renderGalaxy, x: .8 * W, y: .12 * H, R: W * .17}
