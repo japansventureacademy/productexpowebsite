@@ -39,8 +39,8 @@ h3{font-size:20px}
 .rocket i{font-style:normal}
 .rk{display:inline-block;animation:shake .16s steps(2) infinite}
 @keyframes shake{50%{transform:translate(.7px,-.5px)}}
-.rk .h{color:#ff97a2}.rk .r{color:#ff2b3d}.rk .d{color:#b0102a}.rk .e{background:#f4f2f8;color:#bcb6cc}
-.rk .W,.rk .t,.rk .o,.rk .b{background:#f4f2f8}.rk .t{color:#e0142f;font-weight:700}.rk .o{color:#e0142f}.rk .b{color:#2f6fe0}
+.rk .h{color:#ff97a2}.rk .r{color:#ff2b3d}.rk .d{color:#b0102a}.rk .e{color:#6f6a84}
+.rk .c7{background:#8f8aa4}.rk .c8{background:#d9d6e6}.rk .c9{background:#ffffff}.rk .c10{background:#f6f4fa}.rk .c11{background:#e2dfec}.rk .c12{background:#bfbad0}.rk .c13{background:#837e98}.rk .s{color:#a9a3bd}.rk .t{color:#e0142f;font-weight:700}.rk .o{color:#e0142f}.rk .b{color:#2f6fe0}
 .rk .n{color:#ff8a1f}.rk .f0{color:#fff6c8;text-shadow:0 0 6px #ffd23f}.rk .f1{color:#ffd23f;text-shadow:0 0 6px #ff8a1f}.rk .f2{color:#ff8a1f;text-shadow:0 0 5px #ff5a1f}.rk .f3{color:#ff3d2e}.rk .f4{color:#7d7290}
 @keyframes launch{from{transform:translateY(110vh)}to{transform:translateY(-60vh)}}
 .gear{color:var(--pur);text-shadow:0 0 10px var(--pur);animation:spin 14s linear infinite}
@@ -143,6 +143,11 @@ ul.ticks{list-style:none;padding:0;margin:18px 0 24px}
 ul.ticks li{padding:6px 0 6px 28px;position:relative}
 ul.ticks li::before{content:">";position:absolute;left:4px;color:var(--red);font:700 16px "JetBrains Mono",monospace}
 
+.apply{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:28px;align-items:center;border-color:rgba(255,45,79,.55);background:linear-gradient(120deg,rgba(255,45,79,.18),rgba(155,92,255,.16) 60%,rgba(14,8,24,.85))}
+.apply-cta{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.apply-cta .mono{font-size:13px;color:var(--dim)}
+.btn.big{min-height:60px;padding:0 34px;font-size:20px}
+@media(max-width:860px){.apply{grid-template-columns:minmax(0,1fr)}.apply-cta{align-items:stretch}}
 /* ---------- venue / faq / sponsors ---------- */
 .venue{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
 .radar{margin:0;font-size:clamp(11px,1.5vw,17px);line-height:1.15;color:var(--pur2);text-align:center;overflow:hidden}
@@ -178,7 +183,7 @@ footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
   <a class="logo" href="#top">JVA<span>://</span>EXPO_26</a>
   <div class="links">
     <a href="#about">About</a><a href="#schedule">Schedule</a><a href="#speakers">Speakers</a>
-    <a href="#startups">Startups</a><a href="#venue">Venue</a><a href="#faq">FAQ</a>
+    <a href="#startups">Startups</a><a href="#apply">Apply</a><a href="#venue">Venue</a><a href="#faq">FAQ</a>
   </div>
   <a class="btn" href="#register">Register</a>
 </nav>
@@ -287,6 +292,20 @@ footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
       <a class="btn luma-checkout--button" id="luma-link" href="https://luma.com/event/evt-78tbc6TWugMiJ98" data-luma-action="checkout" data-luma-event-id="evt-78tbc6TWugMiJ98">Register for Event</a>
     </div>
     <div class="luma" id="luma"></div>
+  </div>
+</section>
+
+<section class="band" id="apply">
+  <div class="wrap panel apply">
+    <div>
+      <p class="kicker">// ./apply --cohort=next</p>
+      <h2>Next year's JVA Bootcamp cohort</h2>
+      <p class="lead">Coming to the expo and want to be the one on stage next time? Sign-ups for next year's JVA Bootcamp cohort are starting now. Three months to go from idea to a real product, with coaches, founders and a cohort that ships.</p>
+    </div>
+    <div class="apply-cta">
+      <a class="btn big" href="https://forms.gle/dP11PFMVkdZBEiECA" target="_blank" rel="noopener">Apply here →</a>
+      <span class="mono">Sign-ups starting now · opens Google Form</span>
+    </div>
   </div>
 </section>
 
@@ -519,11 +538,12 @@ const termLines = ["$ git push origin mvp", "> deploying to prod...", "> 3 month
 const bg = document.getElementById("bg");
 const add = (cls, html, css) => { const p = document.createElement("pre"); p.className = cls; p.innerHTML = html; Object.assign(p.style, css); bg.appendChild(p); return p; };
 
-const RK = [["          ▲          ", "          h          "], ["         ▟█▙         ", "         hrd         "], ["        ▟███▙        ", "        hrrdd        "], ["       ▟█████▙       ", "       hhrrrdd       "], ["       ███████       ", "       hrrrrdd       "], ["       ▀▀▀▀▀▀▀       ", "       rrrrrrr       "], ["       ▌     ▐       ", "       eWWWWWe       "], ["       ▌  J  ▐       ", "       eWWtWWe       "], ["       ▌  V  ▐       ", "       eWWtWWe       "], ["       ▌  A  ▐       ", "       eWWtWWe       "], ["     ▗▟▌•   •▐▙▖     ", "     hheoWWWoerd     "], ["    ▗██▌ ▐█▌ ▐██▖    ", "    hrreWhrdWerdd    "], ["   ▗███▌•▐█▌•▐███▖   ", "   hrrreohrdoerrdd   "], ["  ▗████▌═▐█▌═▐████▖  ", "  hrrrrebhrdberrrdd  "], ["  ▀▀▀▀▀▀▀▐█▌▀▀▀▀▀▀▀  ", "  rrrrrrrhrdrrrrrrr  "], ["   ▐▓▌   ▐▓▌   ▐▓▌   ", "   nnn   nnn   nnn   "]];
+const RK = [["          ▲          ", "          h          "], ["         ▟█▙         ", "         hrd         "], ["        ▟███▙        ", "        hrrdd        "], ["       ▟█████▙       ", "       hhrrrdd       "], ["       ███████       ", "       hrrrrdd       "], ["       ▀▀▀▀▀▀▀       ", "       rrrrrrr       "], ["       ▌‿‿‿‿‿▐       ", "       esssssse      "], ["       ▌     ▐       ", "       eWWWWWe       "], ["       ▌  J  ▐       ", "       eWWtWWe       "], ["       ▌  V  ▐       ", "       eWWtWWe       "], ["       ▌  A  ▐       ", "       eWWtWWe       "], ["     ▗▟▌•   •▐▙▖     ", "     hheoWWWoerd     "], ["    ▗██▌ ▐█▌ ▐██▖    ", "    hrreWhrdWerdd    "], ["   ▗███▌•▐█▌•▐███▖   ", "   hrrreohrdoerrdd   "], ["  ▗████▌◡▐█▌◡▐████▖  ", "  hrrrrebhrdberrrdd  "], ["  ▀▀▀▀▀▀▀▐█▌▀▀▀▀▀▀▀  ", "  rrrrrrrhrdrrrrrrr  "], ["   ▐▓▌   ▐▓▌   ▐▓▌   ", "   nnn   nnn   nnn   "]];
 const FL = [["█▓@#","f0"],["#@%&","f1"],["*%&$+","f2"],["+=:~","f3"],[".:'`","f3"]];
 const NOZ = [4, 10, 16];
 const rowHTML = arr => { let s = "", cur = null, buf = ""; for (const [ch, k] of arr.concat([["", "§"]])) { if (k !== cur) { if (buf) s += cur && cur !== " " ? `<i class="${cur}">${buf}</i>` : buf; buf = ""; cur = k; } buf += ch; } return s; };
-const bodyHTML = RK.map(([a, m]) => rowHTML([...a].map((ch, i) => [ch, m[i]]))).join("\n");
+const BODY = "WtobeS".split(""), CYL = i => "c" + i;
+const bodyHTML = RK.map(([a, m]) => { const body = [...a][7] === "▌"; return rowHTML([...a].map((ch, i) => [ch, body && i >= 7 && i <= 13 ? m[i] + " " + CYL(i) : m[i]])); }).join("\n");
 const drawRocket = p => {
   const H = 8, grid = Array.from({length: H}, () => Array.from({length: 21}, () => [" ", " "]));
   NOZ.forEach((cx, n) => {
