@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JVA Startup Product Expo 2026</title>
+<meta name="description" content="Japan's Venture Academy 8th Cohort Product Expo. Dec 15, 2026, 18:30–21:00 at Sakura Deeptech Shibuya.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a transmission from another dimension: hacker, launch-day, loud but legible
+   IDEA: a terminal that broke through into space; the page is a live ASCII console
+   PICTURE: ASCII rockets launching, gears turning, bulbs flickering over red/purple code rain
+   COLOUR and TYPE: void black, electric purple, signal red, white; Chakra Petch + Inter + JetBrains Mono
+   LAYOUT: full-bleed ASCII hero, then panel sections floating over the living background */
+:root{--bg:#07040c;--panel:rgba(14,8,24,.82);--line:rgba(169,112,255,.28);--ink:#f5f1ff;--dim:#b9add0;--pur:#9b5cff;--pur2:#c9a6ff;--red:#ff2d4f;--red2:#ff7a8e;color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
+a{color:var(--pur2)}
+.mono,pre{font-family:"JetBrains Mono",ui-monospace,monospace}
+h1,h2,h3{font-family:"Chakra Petch",sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+h2{font-size:clamp(30px,4.4vw,48px)}
+h3{font-size:20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- living background ---------- */
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.32}
+#bg{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+#bg pre{position:absolute;margin:0;font-size:13px;line-height:1.15;white-space:pre}
+.scan{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 40%,transparent 40%,rgba(0,0,0,.75))}
+.rocket{color:var(--ink);text-shadow:0 0 8px var(--pur);animation:launch linear infinite}
+.rocket .fl{color:var(--red);text-shadow:0 0 10px var(--red)}
+@keyframes launch{from{transform:translateY(110vh)}to{transform:translateY(-60vh)}}
+.gear{color:var(--pur);text-shadow:0 0 10px var(--pur);animation:spin 14s linear infinite}
+.gear.r{animation-direction:reverse;color:var(--red);text-shadow:0 0 10px var(--red)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bulb{color:#fff;animation:flick 4s steps(1) infinite}
+.bulb b{color:var(--red2);font-weight:700}
+@keyframes flick{0%,100%{opacity:.95;text-shadow:0 0 14px #fff,0 0 30px var(--pur)}43%{opacity:.25;text-shadow:none}45%{opacity:.9}47%{opacity:.3}50%{opacity:1}}
+.term{color:var(--pur2);border-radius:4px;opacity:.8}
+.planet{color:var(--pur2);opacity:.7;animation:float 9s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-18px)}}
+
+/* ---------- layout ---------- */
+main,header,footer{position:relative;z-index:3}
+nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:18px;padding:12px max(4vw,16px);background:rgba(7,4,12,.78);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .logo{font:700 15px "JetBrains Mono",monospace;color:#fff;text-decoration:none;white-space:nowrap}
+nav .logo span{color:var(--red)}
+nav .links{display:flex;gap:4px;overflow-x:auto;margin-left:auto;scrollbar-width:none}
+nav .links a{flex:none;color:var(--dim);text-decoration:none;font-size:14px;padding:10px 10px;border-radius:6px}
+nav .links a:hover,nav .links a:focus-visible{color:#fff;background:rgba(155,92,255,.18)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:8px;font:700 16px "Chakra Petch",sans-serif;text-decoration:none;color:#fff;background:linear-gradient(90deg,var(--red),#c0186f);box-shadow:0 0 24px rgba(255,45,79,.45);border:0;cursor:pointer;white-space:nowrap}
+.btn.ghost{background:transparent;border:1px solid var(--pur);box-shadow:0 0 16px rgba(155,92,255,.25)}
+.btn:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #fff;outline-offset:3px}
+a.btn.luma-checkout--button{display:inline-flex;min-height:46px;padding:0 22px;border-radius:8px;font:700 16px "Chakra Petch",sans-serif;color:#fff;background:linear-gradient(90deg,var(--red),#c0186f);box-shadow:0 0 24px rgba(255,45,79,.45);border:0}
+nav .btn{min-height:40px;padding:0 16px;font-size:14px}
+.band{padding:clamp(48px,7vw,104px) max(5vw,16px)}
+.wrap{max-width:1180px;margin:0 auto}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3vw,36px);backdrop-filter:blur(6px)}
+.kicker{font:700 14px "JetBrains Mono",monospace;color:var(--red);margin:0 0 12px}
+.lead{color:var(--dim);max-width:62ch;font-size:17px}
+
+/* ---------- hero ---------- */
+.hero{min-height:calc(100vh - 64px);display:grid;place-items:center;text-align:center;padding:48px max(4vw,12px)}
+.hero .fit{width:min(100%,1100px);margin:0 auto}
+.ascii-title{margin:0;line-height:1.02;color:#fff;display:inline-block;text-align:left;animation:glitch 6s infinite}
+.ascii-title.big{text-shadow:-2px 0 var(--red),2px 0 var(--pur),0 0 22px rgba(155,92,255,.8)}
+.stage{perspective:1000px;margin-top:18px}
+.ascii-title.sub{line-height:1;margin-top:0;transform-origin:50% 50%;transform:rotateX(12deg);animation:sway 10s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(155,92,255,.45))}
+.ascii-title.sub i{font-style:normal}
+.sub .a0{color:#ffffff}.sub .a1{color:#fbf7ff}.sub .a2{color:#f1e8ff}.sub .a3{color:#e4d4ff}.sub .a4{color:#d6bfff}.sub .a5{color:#c8a9ff}.sub .a6{color:#b993ff}.sub .b0{color:#ffd0d8;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b1{color:#ffb0be;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b2{color:#ff8fa2;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b3{color:#ff6e86;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b4{color:#ff4d6a;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b5{color:#ff2d4f;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b6{color:#e0183c;text-shadow:0 0 10px rgba(255,45,79,.6)}
+.sub .d1{color:#8a4dff}.sub .d2{color:#5a25c4}.sub .d3{color:#ff2d4f;opacity:.85}
+@keyframes sway{0%,100%{transform:rotateX(12deg) rotateY(-6deg)}50%{transform:rotateX(8deg) rotateY(6deg)}}
+.hero{position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;left:-50%;right:-50%;bottom:-6%;height:42%;z-index:-1;pointer-events:none;background:repeating-linear-gradient(90deg,rgba(155,92,255,.5) 0 1px,transparent 1px 70px),repeating-linear-gradient(0deg,rgba(255,45,79,.4) 0 1px,transparent 1px 46px);transform:perspective(500px) rotateX(62deg);transform-origin:50% 100%;animation:grid 3s linear infinite;-webkit-mask-image:linear-gradient(to top,#000 20%,transparent);mask-image:linear-gradient(to top,#000 20%,transparent)}
+@keyframes grid{to{background-position:0 0,0 46px}}
+.hero .fit{position:relative;z-index:1}
+@keyframes glitch{0%,92%,100%{transform:none;filter:none}93%{transform:translate(-3px,1px) skewX(-6deg);filter:hue-rotate(40deg)}95%{transform:translate(3px,-1px)}97%{transform:translate(-1px,0) skewX(4deg)}}
+.tag{margin:26px auto 0;font-size:clamp(17px,2vw,20px);color:var(--ink);max-width:46ch}
+.meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:24px 0}
+.chip{font:600 15px "JetBrains Mono",monospace;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(14,8,24,.75);white-space:nowrap}
+.chip b{color:var(--red)}
+.count{display:flex;justify-content:center;gap:clamp(8px,2vw,18px);margin:6px 0 28px}
+.count div{min-width:clamp(66px,12vw,96px);padding:12px 6px;border:1px solid var(--line);border-radius:10px;background:rgba(14,8,24,.8)}
+.count strong{display:block;font:700 clamp(28px,5vw,44px)/1 "JetBrains Mono",monospace;color:#fff;text-shadow:0 0 14px var(--pur)}
+.count span{font-size:13px;color:var(--dim)}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:28px;align-items:start}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{padding:18px;border:1px solid var(--line);border-radius:12px;background:rgba(155,92,255,.08)}
+.stat strong{display:block;font:700 28px "Chakra Petch",sans-serif;color:#fff}
+.stat span{color:var(--dim);font-size:14px}
+.unis{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.unis span{padding:6px 12px;border-radius:6px;background:rgba(255,45,79,.12);border:1px solid rgba(255,45,79,.35);font-size:14px}
+.who{margin-top:20px;color:var(--dim);font-size:15px}
+
+/* ---------- schedule ---------- */
+table{width:100%;border-collapse:collapse;margin-top:26px}
+th{font:700 13px "JetBrains Mono",monospace;color:var(--dim);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+td{padding:18px 14px;border-bottom:1px solid rgba(169,112,255,.14);vertical-align:top}
+td.t{font:700 22px "JetBrains Mono",monospace;color:#fff;white-space:nowrap;width:1%}
+td.s{font:700 18px "Chakra Petch",sans-serif}
+td.d{color:var(--dim)}
+tr.track td{background:rgba(255,45,79,.09)}
+tr.track td.t{color:var(--red2);font-size:18px}
+tr:hover td{background:rgba(155,92,255,.08)}
+.note{font-size:13px;color:var(--dim);margin-top:14px}
+@media(max-width:600px){table{font-size:14px}.stack thead{display:none}.stack tr{display:grid;padding-block:12px;border-bottom:1px solid rgba(169,112,255,.14)}.stack td{display:block;border:0;padding:2px 6px;width:auto}.stack td.t{font-size:20px}}
+
+/* ---------- cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin-top:28px}
+.card{padding:20px;border:1px solid var(--line);border-radius:12px;background:var(--panel);transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-4px);border-color:var(--pur)}
+.card pre{margin:0 0 14px;font-size:13px;line-height:1.15;color:var(--pur2);text-shadow:0 0 8px rgba(155,92,255,.6)}
+.card .role{font:700 13px "JetBrains Mono",monospace;color:var(--red)}
+.card p{margin:6px 0 0;color:var(--dim);font-size:15px}
+.redact{display:inline-block;background:#fff;color:#fff;border-radius:2px;user-select:none;letter-spacing:-1px}
+.booth{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center;margin-top:20px;border-color:rgba(255,45,79,.5);background:linear-gradient(90deg,rgba(255,45,79,.16),rgba(14,8,24,.85))}
+.booth pre{margin:0;color:var(--red2);font-size:13px;line-height:1.15}
+
+/* ---------- register ---------- */
+.reg{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:28px;align-items:start}
+.luma{min-height:460px;border-radius:12px;overflow:hidden;background:#fff}
+.luma iframe{display:block;width:100%;height:520px;border:0}
+.luma.empty{display:grid;place-items:center;text-align:center;background:rgba(14,8,24,.9);border:1px dashed var(--pur);padding:24px;color:var(--dim)}
+.luma.empty code{color:var(--pur2)}
+ul.ticks{list-style:none;padding:0;margin:18px 0 24px}
+ul.ticks li{padding:6px 0 6px 28px;position:relative}
+ul.ticks li::before{content:">";position:absolute;left:4px;color:var(--red);font:700 16px "JetBrains Mono",monospace}
+
+/* ---------- venue / faq / sponsors ---------- */
+.venue{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
+.radar{margin:0;font-size:clamp(11px,1.5vw,17px);line-height:1.15;color:var(--pur2);text-align:center;overflow:hidden}
+.radar b{color:var(--red);text-shadow:0 0 10px var(--red);animation:flick 2.4s steps(1) infinite}
+dl.info{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px 18px;margin:20px 0 24px}
+dl.info dt{font:700 14px "JetBrains Mono",monospace;color:var(--red)}
+dl.info dd{margin:0}
+details{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;list-style:none;padding:18px 36px 18px 0;font:700 18px "Chakra Petch",sans-serif;position:relative;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";position:absolute;right:6px;top:14px;font:700 22px "JetBrains Mono",monospace;color:var(--red)}
+details[open] summary::after{content:"−"}
+details p{margin:0 0 18px;color:var(--dim);max-width:70ch}
+.spons{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:24px}
+.spons div{height:96px;display:grid;place-items:center;border:1px dashed var(--line);border-radius:10px;font:600 14px "JetBrains Mono",monospace;color:var(--dim);background:rgba(14,8,24,.6)}
+footer{padding:40px max(5vw,16px) 60px;border-top:1px solid var(--line);background:rgba(7,4,12,.9);text-align:center;color:var(--dim);font-size:14px}
+footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
+
+@media(max-width:860px){.about,.reg,.venue{grid-template-columns:minmax(0,1fr)}.booth{grid-template-columns:minmax(0,1fr)}.booth pre{display:none}#bg .hide-sm{display:none}nav .links{display:none}nav .btn{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<canvas id="rain" aria-hidden="true"></canvas>
+<div id="bg" aria-hidden="true"></div>
+<div class="scan" aria-hidden="true"></div>
+
+<nav>
+  <a class="logo" href="#top">JVA<span>://</span>EXPO_26</a>
+  <div class="links">
+    <a href="#about">About</a><a href="#schedule">Schedule</a><a href="#speakers">Speakers</a>
+    <a href="#startups">Startups</a><a href="#venue">Venue</a><a href="#faq">FAQ</a>
+  </div>
+  <a class="btn" href="#register">Register</a>
+</nav>
+
+<header class="hero" id="top">
+  <div class="fit">
+    <h1 class="sr">JVA Startup Product Expo 2026</h1>
+    <div class="fitbox"><pre class="ascii-title big" aria-hidden="true">     ██╗██╗   ██╗ █████╗   ██████╗  ██████╗ ██████╗  ██████╗
+     ██║██║   ██║██╔══██╗  ╚════██╗██╔═████╗╚════██╗██╔════╝
+     ██║██║   ██║███████║   █████╔╝██║██╔██║ █████╔╝███████╗
+██   ██║╚██╗ ██╔╝██╔══██║  ██╔═══╝ ████╔╝██║██╔═══╝ ██╔═══██╗
+╚█████╔╝ ╚████╔╝ ██║  ██║  ███████╗╚██████╔╝███████╗╚██████╔╝
+ ╚════╝   ╚═══╝  ╚═╝  ╚═╝  ╚══════╝ ╚═════╝ ╚══════╝ ╚═════╝</pre></div>
+    <div class="fitbox stage"><pre class="ascii-title sub" aria-hidden="true"> <i class="a0">██████</i>  <i class="a0">████████</i>    <i class="a0">███</i>    <i class="a0">████████</i>  <i class="a0">████████</i> <i class="a0">██</i>     <i class="a0">██</i> <i class="a0">████████</i>
+<i class="a1">██</i><i class="d1">▓▓▓▓</i><i class="a1">██</i>  <i class="d1">▓▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i>  <i class="a1">██</i><i class="d1">▓</i><i class="a1">██</i>   <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i>  <i class="d1">▓▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i><i class="a1">██</i><i class="d1">▓</i>    <i class="a1">██</i><i class="d1">▓</i><i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i>
+<i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="d1">▓▓</i>  <i class="d2">▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a2">██</i>  <i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i>  <i class="d2">▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒</i>   <i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i>
+ <i class="a3">██████</i><i class="d3">░</i><i class="d2">▒▒</i>  <i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░</i><i class="a3">██</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="a3">██</i> <i class="a3">████████</i><i class="d1">▓▓</i><i class="d2">▒</i>  <i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a3">██</i><i class="d1">▓</i><i class="a3">████████</i><i class="d1">▓▓</i><i class="d2">▒</i>
+  <i class="d1">▓▓▓▓</i><i class="a4">██</i> <i class="d3">░░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a4">█████████</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓▓▓</i><i class="a4">██</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i>
+<i class="a5">██</i> <i class="d2">▒▒▒</i><i class="a5">██</i><i class="d1">▓</i>   <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a5">██</i><i class="d1">▓▓▓▓▓</i><i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒</i><i class="a5">██</i><i class="d2">▒▒</i><i class="d3">░░</i> <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i>
+ <i class="a6">██████</i><i class="d1">▓▓</i><i class="d2">▒</i>  <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a6">██</i><i class="d1">▓</i><i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a6">██</i><i class="d3">░░</i>  <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a6">███████</i><i class="d1">▓▓</i><i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░░░░</i>
+  <i class="d1">▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i>  <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░░░░</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>   <i class="d1">▓▓</i>    <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>   <i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>
+   <i class="d2">▒▒▒▒▒▒</i><i class="d3">░░</i>   <i class="d2">▒▒</i><i class="d3">░</i>   <i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒</i><i class="d3">░</i><i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒</i>    <i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i><i class="d2">▒▒</i><i class="d3">░</i>
+    <i class="d3">░░░░░░</i>     <i class="d3">░░</i>    <i class="d3">░░</i>     <i class="d3">░░</i> <i class="d3">░░</i>     <i class="d3">░░</i>    <i class="d3">░░</i>     <i class="d3">░░░░░░░</i>  <i class="d3">░░</i>
+<i class="a0">████████</i>  <i class="a0">████████</i>   <i class="a0">███████</i>  <i class="a0">████████</i>  <i class="a0">██</i>     <i class="a0">██</i>  <i class="a0">██████</i>  <i class="a0">████████</i>
+<i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓</i>    <i class="a1">██</i><i class="d1">▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i><i class="a1">██</i>  <i class="d1">▓▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i>
+<i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒</i>   <i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="d1">▓▓</i>  <i class="d2">▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i>
+<i class="a3">████████</i><i class="d1">▓▓</i><i class="a3">████████</i><i class="d1">▓▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a3">██</i><i class="d1">▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a3">██</i><i class="d1">▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a3">██</i><i class="d1">▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░</i><i class="d2">▒▒</i>  <i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░</i>
+<i class="a4">██</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒</i><i class="a4">██</i><i class="d1">▓▓▓</i><i class="a4">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>    <i class="d3">░░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
+<i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒</i><i class="a5">██</i><i class="d2">▒▒</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a5">██</i>    <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
+<i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░░░</i><i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a6">██</i><i class="d3">░░</i><i class="a6">███████</i><i class="d1">▓▓</i><i class="a6">████████</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a6">███████</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a6">██████</i><i class="d1">▓▓</i>   <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
+ <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>      <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>   <i class="d1">▓▓</i>  <i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d1">▓▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="d1">▓▓▓▓▓▓</i><i class="d2">▒▒</i>   <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>
+  <i class="d2">▒▒</i><i class="d3">░</i>       <i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒</i>  <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i><i class="d2">▒▒▒▒▒▒▒▒</i><i class="d3">░░</i> <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i> <i class="d2">▒▒▒▒▒▒</i><i class="d3">░░</i>   <i class="d2">▒▒</i><i class="d3">░</i>
+   <i class="d3">░░</i>        <i class="d3">░░</i>     <i class="d3">░░</i>  <i class="d3">░░░░░░░</i>  <i class="d3">░░░░░░░░</i>   <i class="d3">░░░░░░░</i>   <i class="d3">░░░░░░</i>     <i class="d3">░░</i>
+              <i class="b0">████████</i> <i class="b0">██</i>     <i class="b0">██</i> <i class="b0">████████</i>   <i class="b0">███████</i>
+              <i class="b1">██</i><i class="d1">▓▓▓▓▓▓▓</i> <i class="b1">██</i>   <i class="b1">██</i><i class="d1">▓▓</i><i class="b1">██</i><i class="d1">▓▓▓▓▓</i><i class="b1">██</i> <i class="b1">██</i><i class="d1">▓▓▓▓▓</i><i class="b1">██</i>
+              <i class="b2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i> <i class="b2">██</i> <i class="b2">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="b2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="b2">██</i><i class="d1">▓</i><i class="b2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="b2">██</i><i class="d1">▓</i>
+              <i class="b3">██████</i><i class="d3">░░░░░</i> <i class="b3">███</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="b3">████████</i><i class="d1">▓▓</i><i class="b3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="b3">██</i><i class="d1">▓</i><i class="d2">▒</i>
+              <i class="b4">██</i><i class="d1">▓▓▓▓▓</i>    <i class="b4">██</i><i class="d1">▓</i><i class="b4">██</i><i class="d2">▒▒</i><i class="d3">░</i><i class="b4">██</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒</i><i class="b4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="b4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
+              <i class="b5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒</i>  <i class="b5">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="b5">██</i><i class="d3">░░</i><i class="b5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i><i class="b5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="b5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
+              <i class="b6">████████</i><i class="d3">░</i><i class="b6">██</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="b6">██</i> <i class="b6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░░░░</i><i class="b6">███████</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>
+               <i class="d1">▓▓▓▓▓▓▓▓</i> <i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░░</i> <i class="d1">▓▓</i> <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>       <i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i>
+                <i class="d2">▒▒▒▒▒▒▒▒</i> <i class="d2">▒▒</i><i class="d3">░░</i>   <i class="d2">▒▒</i> <i class="d2">▒▒</i><i class="d3">░</i>        <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i>
+                 <i class="d3">░░░░░░░░</i> <i class="d3">░░</i>     <i class="d3">░░</i> <i class="d3">░░</i>         <i class="d3">░░░░░░░</i></pre></div>
+    <p class="tag">Japan's Venture Academy · 8th Cohort. Three months of building. One night to launch.</p>
+    <div class="meta">
+      <span class="chip"><b>&gt;</b> Tue, Dec 15, 2026</span>
+      <span class="chip"><b>&gt;</b> 18:30–21:00 JST</span>
+      <span class="chip"><b>&gt;</b> Sakura Deeptech Shibuya</span>
+    </div>
+    <div class="count" id="count" aria-live="polite">
+      <div><strong id="cd-d">--</strong><span>days</span></div>
+      <div><strong id="cd-h">--</strong><span>hours</span></div>
+      <div><strong id="cd-m">--</strong><span>min</span></div>
+      <div><strong id="cd-s">--</strong><span>sec</span></div>
+    </div>
+    <div class="cta">
+      <a class="btn luma-checkout--button" href="https://luma.com/event/evt-78tbc6TWugMiJ98" data-luma-action="checkout" data-luma-event-id="evt-78tbc6TWugMiJ98">Reserve your spot</a>
+      <a class="btn ghost" href="#schedule">See the schedule</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="band" id="about">
+  <div class="wrap panel about">
+    <div>
+      <p class="kicker">// about the expo</p>
+      <h2>The 8th Cohort Product Expo is live</h2>
+      <p class="lead">After 3 months of ideation, prototyping and building, the Fall 2026 cohort of Japan's Venture Academy is ready to show what they made. Come celebrate the products and the people behind them: ideas that will inspire, surprise and spark conversations.</p>
+      <div class="unis"><span>The University of Tokyo</span><span>Waseda University</span><span>Institute of Science Tokyo</span></div>
+      <p class="who">Who's in the room: bootcamp members, coaches, startup players, investors, guests, and anyone who wants to witness the next generation of entrepreneurs.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>8th</strong><span>cohort of JVA</span></div>
+      <div class="stat"><strong>3 months</strong><span>from idea to product</span></div>
+      <div class="stat"><strong>2.5 hrs</strong><span>of demos &amp; networking</span></div>
+      <div class="stat"><strong>EN</strong><span>English-hosted event</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="schedule">
+  <div class="wrap panel">
+    <p class="kicker">// run_sequence.sh</p>
+    <h2>Event schedule</h2>
+    <table class="stack">
+      <thead><tr><th>Time</th><th>Session</th><th>Details</th></tr></thead>
+      <tbody id="sched"></tbody>
+    </table>
+    <p class="note">Tentative schedule. Times may shift slightly on the day.</p>
+  </div>
+</section>
+
+<section class="band" id="speakers">
+  <div class="wrap">
+    <p class="kicker">// speakers &amp; judges</p>
+    <h2>Who's on stage</h2>
+    <p class="lead">Coaches, founders and investors who'll be judging and speaking. Lineup announcement incoming.</p>
+    <div class="grid" id="people"></div>
+  </div>
+</section>
+
+<section class="band" id="startups">
+  <div class="wrap">
+    <p class="kicker">// cohort_08 --list</p>
+    <h2>Startups exhibiting</h2>
+    <p class="lead">The Fall 2026 cohort teams are still under wraps. Their products get declassified on the night.</p>
+    <div class="grid" id="teams" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr))"></div>
+    <div class="panel booth">
+      <pre aria-hidden="true">  _______
+ |  JOB  |
+ |  [*]  |
+ |_______|
+   |   |</pre>
+      <div>
+        <h3>Startup Booth · 18:30–21:00</h3>
+        <p class="lead" style="margin:6px 0 0">Looking for an internship or your first startup role? Startups are hiring at the booth all evening. Find a job here.</p>
+      </div>
+      <a class="btn ghost" href="#register">Join the expo</a>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="register">
+  <div class="wrap panel reg">
+    <div>
+      <p class="kicker">// sudo register --now</p>
+      <h2>Join us</h2>
+      <p class="lead">If you're a student interested in building products from scratch, or a startup enthusiast looking to connect with like-minded peers, this event is for you.</p>
+      <ul class="ticks">
+        <li>See live products from the Fall 2026 cohort</li>
+        <li>Meet founders, coaches and investors</li>
+        <li>Find internships and jobs at the startup booth</li>
+      </ul>
+      <a class="btn luma-checkout--button" id="luma-link" href="https://luma.com/event/evt-78tbc6TWugMiJ98" data-luma-action="checkout" data-luma-event-id="evt-78tbc6TWugMiJ98">Register for Event</a>
+    </div>
+    <div class="luma" id="luma"></div>
+  </div>
+</section>
+
+<section class="band" id="venue">
+  <div class="wrap panel venue">
+    <div>
+      <p class="kicker">// coordinates</p>
+      <h2>Venue</h2>
+      <dl class="info">
+        <dt>Where</dt><dd>Sakura Deeptech Shibuya, Shibuya, Tokyo</dd>
+        <dt>When</dt><dd>Tuesday, December 15, 2026</dd>
+        <dt>Doors</dt><dd>18:30 registration · ends 21:00</dd>
+        <dt>Lang</dt><dd>English</dd>
+      </dl>
+      <a class="btn ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Sakura+Deeptech+Shibuya" target="_blank" rel="noopener">Open in Google Maps</a>
+    </div>
+    <pre class="radar" aria-hidden="true">
+          .  ·  ˚    ✦     ·
+     .-----------------------.
+    /    .       |       .    \
+   |  .          |          .  |
+   |------------ <b>[◉]</b> ------------|
+   |  .   SAKURA DEEPTECH   .  |
+    \    .    SHIBUYA    .    /
+     '-----------------------'
+        ·   ˚   ✦    ·   .</pre>
+  </div>
+</section>
+
+<section class="band" id="faq">
+  <div class="wrap panel">
+    <p class="kicker">// man expo</p>
+    <h2>FAQ</h2>
+    <div id="faqs" style="margin-top:16px"></div>
+  </div>
+</section>
+
+<section class="band" id="sponsors">
+  <div class="wrap">
+    <p class="kicker">// powered_by</p>
+    <h2>Partners &amp; sponsors</h2>
+    <p class="lead">Want your company in front of Tokyo's next founders? Sponsor slots are open.</p>
+    <div class="spons"><div>[ your logo ]</div><div>[ your logo ]</div><div>[ your logo ]</div><div>[ your logo ]</div></div>
+  </div>
+</section>
+</main>
+
+<footer>
+<pre aria-hidden="true">   .--.      ___
+  / /\ \    | | |   build &gt; ship &gt; launch
+ /_/  \_\   |_|_|</pre>
+  <p>JVA Startup Product Expo 2026 · Japan's Venture Academy · Dec 15, 2026 · Sakura Deeptech Shibuya</p>
+</footer>
+
+<script>
+{
+/* ===== EDIT ME ===== */
+const CONFIG = {
+  lumaEventId: "evt-78tbc6TWugMiJ98",          // e.g. "evt-AbC123xyz"  (Luma > Manage event > More > Embed event)
+  lumaUrl: "https://luma.com/event/evt-78tbc6TWugMiJ98",              // e.g. "https://lu.ma/jva-expo-2026"
+  eventStart: "2026-12-15T18:30:00+09:00"
+};
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- schedule ---------- */
+const schedule = [
+  ["18:30", "Registration", "Doors open. Check in and grab a drink."],
+  ["18:45", "Event starts", "Opening and the Fall 2026 cohort product showcase."],
+  ["19:50", "Networking", "Meet the founders, coaches, investors and guests."],
+  ["21:00", "Event ends", "Final goodbyes. See you at the next launch."],
+  ["18:30–21:00", "Startup Booth", "Running all evening. Find a job here!", true]
+];
+document.getElementById("sched").innerHTML = schedule.map(([t,s,d,track]) =>
+  `<tr${track?' class="track"':''}><td class="t">${esc(t)}</td><td class="s">${esc(s)}</td><td class="d">${esc(d)}</td></tr>`).join("");
+
+/* ---------- people ---------- */
+const faces = [
+String.raw`   .---.
+  / o o \
+ |   ^   |
+  \ '-' /
+   '---'`,
+String.raw`   _____
+  | [?] |
+  | -_- |
+  |_____|
+   /   \ `,
+String.raw`   .-"-.
+  /|6 6|\
+  \| _ |/
+    \_/
+   /   \ `,
+String.raw`  [=====]
+  | 0 0 |
+  |  >  |
+  | --- |
+  '-----'`
+];
+const people = [
+  ["Keynote speaker","To be announced"],
+  ["Judge","To be announced"],
+  ["Judge","To be announced"],
+  ["Judge","To be announced"]
+];
+document.getElementById("people").innerHTML = people.map(([r,n],i) =>
+  `<div class="card"><pre aria-hidden="true">${esc(faces[i%faces.length])}</pre><div class="role">${esc(r)}</div><h3>${esc(n)}</h3><p>Lineup reveal coming soon.</p></div>`).join("");
+
+/* ---------- teams (placeholders until lineup is public) ---------- */
+document.getElementById("teams").innerHTML = Array.from({length:6},(_,i) =>
+  `<div class="card"><div class="role">TEAM_0${i+1}</div><h3><span class="redact">██████████</span></h3><p><span class="redact">████████ ██████ ████</span><br>Declassified Dec 15</p></div>`).join("");
+
+/* ---------- FAQ ---------- */
+const faqs = [
+  ["Who can attend?","Students curious about building products, startup enthusiasts, founders, investors, and anyone who wants to see the next generation of entrepreneurs."],
+  ["Do I need to register?","Yes. Please register through the Luma form above so we can plan for the right number of guests."],
+  ["What language is the event in?","The event is hosted in English."],
+  ["What time should I arrive?","Registration opens at 18:30 and the program starts at 18:45. Networking begins at 19:50 if you can only make it later."],
+  ["Are startups hiring?","Yes. The Startup Booth runs from 18:30 to 21:00. Come find an internship or your next role."],
+  ["How can my company sponsor or exhibit?","Reach out to the JVA team through the Luma event page and we'll get back to you."]
+];
+document.getElementById("faqs").innerHTML = faqs.map(([q,a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
+
+/* ---------- Luma ---------- */
+const luma = document.getElementById("luma");
+if (CONFIG.lumaEventId) {
+  luma.innerHTML = `<iframe src="https://luma.com/embed/event/${encodeURIComponent(CONFIG.lumaEventId)}/simple" title="Register on Luma" allowfullscreen loading="lazy"></iframe>`;
+} else {
+  luma.className = "luma empty";
+  luma.innerHTML = `<div><p class="mono" style="color:#fff;font-size:18px;margin:0 0 8px">[ LUMA SIGNUP LOADS HERE ]</p><p style="margin:0">Set <code>lumaEventId</code> in the CONFIG at the bottom of this file to embed the registration form.</p></div>`;
+}
+
+/* ---------- countdown ---------- */
+const target = new Date(CONFIG.eventStart).getTime(), pad = n => String(n).padStart(2,"0");
+const tick = () => {
+  let s = Math.max(0, Math.floor((target - Date.now())/1000));
+  if (s === 0) { document.getElementById("count").innerHTML = '<div style="padding:14px 22px"><strong>LIVE</strong><span>we have liftoff</span></div>'; return; }
+  document.getElementById("cd-d").textContent = Math.floor(s/86400);
+  document.getElementById("cd-h").textContent = pad(Math.floor(s%86400/3600));
+  document.getElementById("cd-m").textContent = pad(Math.floor(s%3600/60));
+  document.getElementById("cd-s").textContent = pad(s%60);
+  setTimeout(tick, 1000);
+};
+tick();
+
+/* ---------- fit ASCII title to width ---------- */
+const fit = () => document.querySelectorAll(".fitbox").forEach(box => {
+  const pre = box.firstElementChild; pre.style.fontSize = "20px";
+  const w = pre.scrollWidth, avail = box.clientWidth * .96;
+  pre.style.fontSize = Math.min(pre.classList.contains("big") ? 22 : 16, 20 * avail / w) + "px";
+});
+const fitObs = new ResizeObserver(fit); fitObs.observe(document.querySelector(".hero .fit"));
+document.fonts && document.fonts.ready.then(fit);
+
+/* ---------- ASCII background objects ---------- */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const rocketBody = String.raw`    /\
+   /  \
+  | JV |
+  | A  |
+  |    |
+ /| /\ |\
+/_|/  \|_\ `;
+const flames = [String.raw`   (  )
+    ()
+    ''`, String.raw`   )()(
+   (  )
+    ()`, String.raw`   (\/)
+    )(
+    '`];
+const bulb = String.raw`    .---.
+   / <b>\|/</b> \
+  |  <b>-*-</b>  |
+   \ <b>/|\</b> /
+    '._.'
+    |===|
+    |===|
+     \_/`;
+const gear = String.raw`    _   _
+  _| |_| |_
+ |  .---.  |
+_| /     \ |_
+|_ |  o  | _|
+ | \     / |
+ |_ '---' _|
+   |_| |_|`;
+const planet = String.raw`         .  *
+     .-~~~~~~-.     ·
+ ~~~(  ·   o   )~~~~~~
+     '-.____.-'   *
+   ·        .`;
+const termLines = ["$ git push origin mvp", "> deploying to prod...", "> 3 months. 1 night.", "$ ./launch --cohort=08", "> [##########----] 71%", "> hello, another world_", "$ npm run pitch", "> investors: online"];
+
+const bg = document.getElementById("bg");
+const add = (cls, html, css) => { const p = document.createElement("pre"); p.className = cls; p.innerHTML = html; Object.assign(p.style, css); bg.appendChild(p); return p; };
+
+const rockets = [
+  {left:"6%", dur:22, delay:-4}, {left:"84%", dur:28, delay:-17, sm:1}, {left:"46%", dur:34, delay:-26, sm:1}
+].map(r => {
+  const p = add("rocket"+(r.sm?" hide-sm":""), "", {left:r.left, top:"0", animationDuration:r.dur+"s", animationDelay:r.delay+"s"});
+  p.dataset.f = 0; return p;
+});
+const drawRockets = () => rockets.forEach(p => { const f = (+p.dataset.f + 1) % 3; p.dataset.f = f; p.innerHTML = esc(rocketBody) + "\n<span class='fl'>" + esc(flames[f]) + "</span>"; });
+drawRockets();
+if (!reduce) setInterval(drawRockets, 140);
+
+add("bulb", bulb, {left:"78%", top:"14%"});
+add("bulb hide-sm", bulb, {left:"14%", top:"62%", animationDelay:"-2s"});
+add("gear", esc(gear), {left:"3%", top:"28%"});
+add("gear r hide-sm", esc(gear), {left:"88%", top:"58%"});
+add("gear hide-sm", esc(gear), {left:"30%", top:"84%", animationDuration:"20s"});
+add("planet hide-sm", esc(planet), {left:"26%", top:"8%"});
+const term = add("term hide-sm", "", {left:"71%", top:"88%"});
+let tl = 0, tc = 0, shown = [];
+const typeTerm = () => {
+  const line = termLines[tl % termLines.length];
+  const cur = line.slice(0, tc);
+  term.textContent = "+------------------------------+\n" + [...shown, cur + "▌"].map(l => "| " + l.padEnd(29) + "|").join("\n") + "\n+------------------------------+";
+  if (tc < line.length) { tc++; setTimeout(typeTerm, 60); }
+  else { shown.push(line); if (shown.length > 3) shown.shift(); tl++; tc = 0; setTimeout(typeTerm, 900); }
+};
+reduce ? (term.textContent = termLines.slice(0,4).join("\n")) : typeTerm();
+
+/* ---------- code rain ---------- */
+const cv = document.getElementById("rain"), ctx = cv.getContext("2d");
+const chars = "01アイウエオカキクケコ{}<>/\\#$%&*+=JVAEXPO2026λΣΔ";
+let cols = [], fs = 16;
+const resize = () => { cv.width = innerWidth; cv.height = innerHeight; cols = Array.from({length: Math.ceil(cv.width/fs)}, () => Math.random() * -60); };
+resize(); addEventListener("resize", resize);
+const rain = () => {
+  ctx.fillStyle = "rgba(7,4,12,0.12)"; ctx.fillRect(0, 0, cv.width, cv.height);
+  ctx.font = fs + "px JetBrains Mono, monospace";
+  cols.forEach((y, i) => {
+    const ch = chars[Math.floor(Math.random() * chars.length)];
+    ctx.fillStyle = Math.random() < .06 ? "#ff2d4f" : (Math.random() < .5 ? "#9b5cff" : "#5b2aa8");
+    ctx.fillText(ch, i * fs, y * fs);
+    cols[i] = (y * fs > cv.height && Math.random() > .975) ? 0 : y + 1;
+  });
+};
+if (reduce) { for (let i = 0; i < 60; i++) rain(); } else setInterval(rain, 55);
+}
+</script>
+<script id="luma-checkout" src="https://embed.lu.ma/checkout-button.js"></script>
+</body>
+</html>
