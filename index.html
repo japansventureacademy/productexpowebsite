@@ -67,12 +67,13 @@ nav .btn{min-height:40px;padding:0 16px;font-size:14px}
 .hero .fit{width:min(100%,1100px);margin:0 auto}
 .ascii-title{margin:0;line-height:1.02;color:#fff;display:inline-block;text-align:left;animation:glitch 6s infinite}
 .ascii-title.big{text-shadow:-2px 0 var(--red),2px 0 var(--pur),0 0 22px rgba(155,92,255,.8)}
-.stage{perspective:1000px;margin-top:18px}
-.ascii-title.sub{line-height:1;margin-top:0;transform-origin:50% 50%;transform:rotateX(12deg);animation:sway 10s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(155,92,255,.45))}
+.stage{perspective:1000px;margin-top:16px}
+.ascii-title.sub{font-weight:700;line-height:1;margin-top:0;color:#fff;transform:rotateX(14deg);transform-origin:50% 50%;animation:sway 12s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(155,92,255,.6))}
 .ascii-title.sub i{font-style:normal}
-.sub .a0{color:#ffffff}.sub .a1{color:#fbf7ff}.sub .a2{color:#f1e8ff}.sub .a3{color:#e4d4ff}.sub .a4{color:#d6bfff}.sub .a5{color:#c8a9ff}.sub .a6{color:#b993ff}.sub .b0{color:#ffd0d8;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b1{color:#ffb0be;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b2{color:#ff8fa2;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b3{color:#ff6e86;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b4{color:#ff4d6a;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b5{color:#ff2d4f;text-shadow:0 0 10px rgba(255,45,79,.6)}.sub .b6{color:#e0183c;text-shadow:0 0 10px rgba(255,45,79,.6)}
-.sub .d1{color:#8a4dff}.sub .d2{color:#5a25c4}.sub .d3{color:#ff2d4f;opacity:.85}
-@keyframes sway{0%,100%{transform:rotateX(12deg) rotateY(-6deg)}50%{transform:rotateX(8deg) rotateY(6deg)}}
+.sub .a{background:#d9c8ff;color:#5a25c4}.sub .e{background:#fff;color:#7a3cf0}.sub .b{background:#ff4d6a;color:#6b0c20}.sub .be{background:#ffc2cc;color:#b0143a}
+.sub .h{background:#ff2d4f;color:#fff}.sub .s{background:#fff;color:#ff2d4f}
+.sub .d1{background:#4a1f9a;color:#7a3cf0}.sub .d2{background:#1e0848;color:#4a1f9a}
+@keyframes sway{0%,100%{transform:rotateX(14deg) rotateY(-4deg)}50%{transform:rotateX(10deg) rotateY(4deg)}}
 .hero{position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;left:-50%;right:-50%;bottom:-6%;height:42%;z-index:-1;pointer-events:none;background:repeating-linear-gradient(90deg,rgba(155,92,255,.5) 0 1px,transparent 1px 70px),repeating-linear-gradient(0deg,rgba(255,45,79,.4) 0 1px,transparent 1px 46px);transform:perspective(500px) rotateX(62deg);transform-origin:50% 100%;animation:grid 3s linear infinite;-webkit-mask-image:linear-gradient(to top,#000 20%,transparent);mask-image:linear-gradient(to top,#000 20%,transparent)}
 @keyframes grid{to{background-position:0 0,0 46px}}
@@ -178,36 +179,7 @@ footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
 ██   ██║╚██╗ ██╔╝██╔══██║  ██╔═══╝ ████╔╝██║██╔═══╝ ██╔═══██╗
 ╚█████╔╝ ╚████╔╝ ██║  ██║  ███████╗╚██████╔╝███████╗╚██████╔╝
  ╚════╝   ╚═══╝  ╚═╝  ╚═╝  ╚══════╝ ╚═════╝ ╚══════╝ ╚═════╝</pre></div>
-    <div class="fitbox stage"><pre class="ascii-title sub" aria-hidden="true"> <i class="a0">██████</i>  <i class="a0">████████</i>    <i class="a0">███</i>    <i class="a0">████████</i>  <i class="a0">████████</i> <i class="a0">██</i>     <i class="a0">██</i> <i class="a0">████████</i>
-<i class="a1">██</i><i class="d1">▓▓▓▓</i><i class="a1">██</i>  <i class="d1">▓▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i>  <i class="a1">██</i><i class="d1">▓</i><i class="a1">██</i>   <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i>  <i class="d1">▓▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i><i class="a1">██</i><i class="d1">▓</i>    <i class="a1">██</i><i class="d1">▓</i><i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i>
-<i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="d1">▓▓</i>  <i class="d2">▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a2">██</i>  <i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i>  <i class="d2">▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒</i>   <i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i>
- <i class="a3">██████</i><i class="d3">░</i><i class="d2">▒▒</i>  <i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░</i><i class="a3">██</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="a3">██</i> <i class="a3">████████</i><i class="d1">▓▓</i><i class="d2">▒</i>  <i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a3">██</i><i class="d1">▓</i><i class="a3">████████</i><i class="d1">▓▓</i><i class="d2">▒</i>
-  <i class="d1">▓▓▓▓</i><i class="a4">██</i> <i class="d3">░░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a4">█████████</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓▓▓</i><i class="a4">██</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i>
-<i class="a5">██</i> <i class="d2">▒▒▒</i><i class="a5">██</i><i class="d1">▓</i>   <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a5">██</i><i class="d1">▓▓▓▓▓</i><i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒</i><i class="a5">██</i><i class="d2">▒▒</i><i class="d3">░░</i> <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i>
- <i class="a6">██████</i><i class="d1">▓▓</i><i class="d2">▒</i>  <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a6">██</i><i class="d1">▓</i><i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a6">██</i><i class="d3">░░</i>  <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a6">███████</i><i class="d1">▓▓</i><i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░░░░</i>
-  <i class="d1">▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i>  <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░░░░</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>   <i class="d1">▓▓</i>    <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>   <i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>
-   <i class="d2">▒▒▒▒▒▒</i><i class="d3">░░</i>   <i class="d2">▒▒</i><i class="d3">░</i>   <i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒</i><i class="d3">░</i><i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒</i>    <i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i><i class="d2">▒▒</i><i class="d3">░</i>
-    <i class="d3">░░░░░░</i>     <i class="d3">░░</i>    <i class="d3">░░</i>     <i class="d3">░░</i> <i class="d3">░░</i>     <i class="d3">░░</i>    <i class="d3">░░</i>     <i class="d3">░░░░░░░</i>  <i class="d3">░░</i>
-<i class="a0">████████</i>  <i class="a0">████████</i>   <i class="a0">███████</i>  <i class="a0">████████</i>  <i class="a0">██</i>     <i class="a0">██</i>  <i class="a0">██████</i>  <i class="a0">████████</i>
-<i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓▓▓▓▓</i><i class="a1">██</i> <i class="a1">██</i><i class="d1">▓</i>    <i class="a1">██</i><i class="d1">▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i><i class="a1">██</i>  <i class="d1">▓▓</i><i class="a1">██</i><i class="d1">▓▓▓▓</i>
-<i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒</i>   <i class="a2">██</i><i class="d1">▓</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="d1">▓▓</i>  <i class="d2">▒</i><i class="a2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i>
-<i class="a3">████████</i><i class="d1">▓▓</i><i class="a3">████████</i><i class="d1">▓▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a3">██</i><i class="d1">▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a3">██</i><i class="d1">▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a3">██</i><i class="d1">▓</i><i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░</i><i class="d2">▒▒</i>  <i class="a3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░</i>
-<i class="a4">██</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒</i><i class="a4">██</i><i class="d1">▓▓▓</i><i class="a4">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a4">██</i><i class="d1">▓</i><i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>    <i class="d3">░░</i> <i class="a4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
-<i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒▒▒</i><i class="a5">██</i><i class="d2">▒▒</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="a5">██</i><i class="d1">▓</i><i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i> <i class="a5">██</i>    <i class="a5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
-<i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░░░</i><i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="a6">██</i><i class="d3">░░</i><i class="a6">███████</i><i class="d1">▓▓</i><i class="a6">████████</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a6">███████</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="a6">██████</i><i class="d1">▓▓</i>   <i class="a6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
- <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>      <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>   <i class="d1">▓▓</i>  <i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d1">▓▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="d1">▓▓▓▓▓▓</i><i class="d2">▒▒</i>   <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>
-  <i class="d2">▒▒</i><i class="d3">░</i>       <i class="d2">▒▒</i><i class="d3">░</i>    <i class="d2">▒▒</i>  <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i><i class="d2">▒▒▒▒▒▒▒▒</i><i class="d3">░░</i> <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i> <i class="d2">▒▒▒▒▒▒</i><i class="d3">░░</i>   <i class="d2">▒▒</i><i class="d3">░</i>
-   <i class="d3">░░</i>        <i class="d3">░░</i>     <i class="d3">░░</i>  <i class="d3">░░░░░░░</i>  <i class="d3">░░░░░░░░</i>   <i class="d3">░░░░░░░</i>   <i class="d3">░░░░░░</i>     <i class="d3">░░</i>
-              <i class="b0">████████</i> <i class="b0">██</i>     <i class="b0">██</i> <i class="b0">████████</i>   <i class="b0">███████</i>
-              <i class="b1">██</i><i class="d1">▓▓▓▓▓▓▓</i> <i class="b1">██</i>   <i class="b1">██</i><i class="d1">▓▓</i><i class="b1">██</i><i class="d1">▓▓▓▓▓</i><i class="b1">██</i> <i class="b1">██</i><i class="d1">▓▓▓▓▓</i><i class="b1">██</i>
-              <i class="b2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i> <i class="b2">██</i> <i class="b2">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="b2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="b2">██</i><i class="d1">▓</i><i class="b2">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒</i><i class="b2">██</i><i class="d1">▓</i>
-              <i class="b3">██████</i><i class="d3">░░░░░</i> <i class="b3">███</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="b3">████████</i><i class="d1">▓▓</i><i class="b3">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░</i><i class="b3">██</i><i class="d1">▓</i><i class="d2">▒</i>
-              <i class="b4">██</i><i class="d1">▓▓▓▓▓</i>    <i class="b4">██</i><i class="d1">▓</i><i class="b4">██</i><i class="d2">▒▒</i><i class="d3">░</i><i class="b4">██</i><i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒</i><i class="b4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="b4">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
-              <i class="b5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒</i>  <i class="b5">██</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="b5">██</i><i class="d3">░░</i><i class="b5">██</i><i class="d1">▓</i><i class="d2">▒▒▒▒▒▒▒</i><i class="b5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>  <i class="b5">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░</i>
-              <i class="b6">████████</i><i class="d3">░</i><i class="b6">██</i><i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░</i><i class="b6">██</i> <i class="b6">██</i><i class="d1">▓</i><i class="d2">▒</i><i class="d3">░░░░░░░</i><i class="b6">███████</i><i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>
-               <i class="d1">▓▓▓▓▓▓▓▓</i> <i class="d1">▓▓</i><i class="d2">▒▒</i><i class="d3">░░</i> <i class="d1">▓▓</i> <i class="d1">▓▓</i><i class="d2">▒</i><i class="d3">░</i>       <i class="d1">▓▓▓▓▓▓▓</i><i class="d2">▒▒</i><i class="d3">░</i>
-                <i class="d2">▒▒▒▒▒▒▒▒</i> <i class="d2">▒▒</i><i class="d3">░░</i>   <i class="d2">▒▒</i> <i class="d2">▒▒</i><i class="d3">░</i>        <i class="d2">▒▒▒▒▒▒▒</i><i class="d3">░░</i>
-                 <i class="d3">░░░░░░░░</i> <i class="d3">░░</i>     <i class="d3">░░</i> <i class="d3">░░</i>         <i class="d3">░░░░░░░</i></pre></div>
+    <div class="fitbox stage"><pre class="ascii-title sub" id="glyph" aria-hidden="true"></pre></div>
     <p class="tag">Japan's Venture Academy · 8th Cohort. Three months of building. One night to launch.</p>
     <div class="meta">
       <span class="chip"><b>&gt;</b> Tue, Dec 15, 2026</span>
@@ -447,11 +419,47 @@ const tick = () => {
 };
 tick();
 
+/* ---------- living glyph title: STARTUP PRODUCT EXPO ---------- */
+const GRID = ["00111110001111111110011110000011111100011111111101110001110111111000000111111100011111100000011111000111111100001110001110000111100001111111110001111111100111000111011111110000011111000", "01111111001111111110011111000011111110011111111101110001110111111110000111111110011111111000111111100111111110001110001110011111111001111111110001111111110111101111011111111000111111100", "11111111101111111110011111000011111111011111111101110001110111111110000111111111011111111001111111110111111111001110001110011111111001111111110001111111110011101110011111111101111111110", "11100011100001110000111111000011100111000011100001110001110111001111000111000111011100111011110001110111000111101110001110111100111100001110000001110000000011111110011100011101110001111", "11111000000001110000111011100011100111000011100001110001110111000111000111000111011100111011100001110111000011101110001110111000011100001110000001111000000001111100011100011101110000111", "01111111000001110000111011100011101111000011100001110001110111001111000111101111011100111011100001111111000011101110001110111000000000001110000001111111100000111000011110111101110000111", "00111111100001110001111011100011111111000011100001110001110111111110000111111110011111111011100001111111000011101110001110111000000000001110000001111111100001111100011111111101110000111", "00000111100001110001111111110011111110000011100001110001110111111100000111111100011111110011100001110111000011101110001110111000011100001110000001111000000001111100011111111001110000111", "11100011100001110001111111110011101110000011100001110001110111000000000111100000011101110011110001110111000111101110001110111100111100001110000001110000000011111110011110000001110001111", "11111111100001110011111111110011101111000011100001111111110111000000000111000000011100111001111111110111111111001111111110011111111000001110000001111111110111101110011100000001111111110", "01111111000001110011100001111011100111000011100000111111100111000000000111000000011100111000111111100111111110000111111100011111111000001110000001111111110111000111011100000000111111100", "00111110000001110011100000111011100111000011100000011111000111000000000111000000011100011100011111000111111100000011111000000111100000001110000001111111101111000111111100000000011111000"], EXPO_COL = 144, DEPTH = 2;
+const GL = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ#$%&@*+=?!/\\<>{}[]";
+const rg = () => GL[Math.floor(Math.random() * GL.length)];
+const gR = GRID.length, gC = GRID[0].length, R = gR + DEPTH, C = gC + DEPTH;
+const on = (r, c) => r >= 0 && c >= 0 && r < gR && c < gC && GRID[r][c] === "1";
+const cells = [];
+for (let r = 0; r < R; r++) for (let c = 0; c < C; c++) {
+  if (on(r, c)) { const ex = c >= EXPO_COL, edge = !on(r - 1, c) || !on(r, c - 1); cells.push({r, c, f: 1, ch: rg(), k: ex ? (edge ? "be" : "b") : (edge ? "e" : "a")}); }
+  else if (on(r - 1, c - 1)) cells.push({r, c, ch: ":", k: "d1"});
+  else if (on(r - 2, c - 2)) cells.push({r, c, ch: ".", k: "d2"});
+}
+const front = cells.filter(x => x.f), glyph = document.getElementById("glyph");
+const gesc = ch => ch === "<" ? "&lt;" : ch === ">" ? "&gt;" : ch === "&" ? "&amp;" : ch;
+let scan = -20;
+const drawGlyph = () => {
+  const rows = Array.from({length: R}, () => Array(C).fill(null));
+  for (const x of cells) {
+    let k = x.k;
+    if (x.f && Math.abs(x.c - scan) < 3) k = "s"; else if (x.f && x.hot) k = "h";
+    rows[x.r][x.c] = [x.ch, k];
+  }
+  glyph.innerHTML = rows.map(row => { let s = "", cur = null, buf = "";
+    for (const cell of row.concat([["", "end"]])) { const k = cell ? cell[1] : null, ch = cell ? cell[0] : " ";
+      if (k !== cur) { if (buf) s += cur ? `<i class="${cur}">${buf}</i>` : buf; buf = ""; cur = k; }
+      buf += gesc(ch); }
+    return s.replace(/\s+$/, ""); }).join("\n");
+};
+const tickGlyph = () => {
+  for (const x of front) { if (Math.random() < .14) x.ch = rg(); x.hot = Math.random() < .03; }
+  scan += 2; if (scan > C + 40) scan = -40;
+  drawGlyph();
+};
+drawGlyph();
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(tickGlyph, 70);
+
 /* ---------- fit ASCII title to width ---------- */
 const fit = () => document.querySelectorAll(".fitbox").forEach(box => {
   const pre = box.firstElementChild; pre.style.fontSize = "20px";
   const w = pre.scrollWidth, avail = box.clientWidth * .96;
-  pre.style.fontSize = Math.min(pre.classList.contains("big") ? 22 : 16, 20 * avail / w) + "px";
+  pre.style.fontSize = Math.min(pre.classList.contains("big") ? 22 : 12, 20 * avail / w) + "px";
 });
 const fitObs = new ResizeObserver(fit); fitObs.observe(document.querySelector(".hero .fit"));
 document.fonts && document.fonts.ready.then(fit);
