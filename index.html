@@ -16,7 +16,7 @@
    LAYOUT: full-bleed ASCII hero, then panel sections floating over the living background */
 :root{--bg:#07040c;--panel:rgba(14,8,24,.82);--line:rgba(169,112,255,.28);--ink:#f5f1ff;--dim:#b9add0;--pur:#9b5cff;--pur2:#c9a6ff;--red:#ff2d4f;--red2:#ff7a8e;color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-html{scroll-behavior:smooth;scroll-padding-top:72px}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:72px}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;overflow-x:clip}
 a{color:var(--pur2)}
 .mono,pre{font-family:"JetBrains Mono",ui-monospace,monospace}
@@ -77,7 +77,10 @@ nav .btn{min-height:40px;padding:0 16px;font-size:14px}
 .hero .fit{width:min(100%,1100px);margin:0 auto}
 .ascii-title{margin:0;line-height:1.02;color:#fff;display:inline-block;text-align:left;animation:glitch 6s infinite}
 .ascii-title.big{text-shadow:-2px 0 var(--red),2px 0 var(--pur),0 0 22px rgba(155,92,255,.8)}
-.stage{perspective:1000px;margin-top:16px}
+.stage{margin-top:16px}
+.fitbox{display:flex;justify-content:center}
+.fitin{flex:none;transform-origin:top center}
+.stage .fitin{perspective:1000px}
 .ascii-title.sub{font-weight:700;line-height:1;margin-top:0;color:#fff;transform:rotateX(14deg);transform-origin:50% 50%;animation:sway 12s ease-in-out infinite;filter:drop-shadow(0 0 18px rgba(155,92,255,.6))}
 .ascii-title.sub i{font-style:normal}
 .sub .a{background:#d9c8ff;color:#5a25c4}.sub .e{background:#fff;color:#7a3cf0}.sub .b{background:#ff4d6a;color:#6b0c20}.sub .be{background:#ffc2cc;color:#b0143a}
@@ -243,7 +246,7 @@ nav .links a{padding:14px 6px;font-size:17px;border-bottom:1px solid rgba(169,11
 
 <div class="appbar" id="appbar">
   <div class="ab-info"><strong>Tue, Dec 15 · 18:30</strong>Sakura Deeptech Shibuya</div>
-  <a class="btn" href="#register">Register →</a>
+  <a class="btn" href="https://luma.com/event/evt-78tbc6TWugMiJ98" rel="noopener">Register →</a>
 </div>
 
 <header class="hero" id="top">
@@ -557,12 +560,20 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) setInterval(tickGly
 
 /* ---------- fit ASCII title to width ---------- */
 const fit = () => document.querySelectorAll(".fitbox").forEach(box => {
-  const pre = box.firstElementChild; pre.style.fontSize = "20px";
-  const w = pre.scrollWidth, avail = box.clientWidth * .96;
-  pre.style.fontSize = Math.min(pre.classList.contains("big") ? 22 : 12, 20 * avail / w) + "px";
+  let inn = box.querySelector(".fitin");
+  if (!inn) { inn = document.createElement("div"); inn.className = "fitin"; box.insertBefore(inn, box.firstElementChild); inn.appendChild(inn.nextElementSibling); }
+  const pre = inn.firstElementChild;
+  pre.style.fontSize = (pre.classList.contains("big") ? 22 : 12) + "px";   // render at a normal size, then scale the box
+  const w = pre.offsetWidth, h = pre.offsetHeight, k = Math.min(1, box.clientWidth * .96 / w);
+  inn.style.width = w + "px"; inn.style.transform = `scale(${k})`; box.style.height = h * k + "px";
 });
 const fitObs = new ResizeObserver(fit); fitObs.observe(document.querySelector(".hero .fit"));
 document.fonts && document.fonts.ready.then(fit);
+document.fonts && document.fonts.addEventListener && document.fonts.addEventListener("loadingdone", fit);
+addEventListener("load", fit); addEventListener("pageshow", fit);
+addEventListener("scroll", fit, {once: true, passive: true});
+window.visualViewport && visualViewport.addEventListener("resize", fit);
+[150, 600, 1500, 3000].forEach(ms => setTimeout(fit, ms));
 
 /* ---------- ASCII background objects ---------- */
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -606,7 +617,7 @@ const termLines = ["$ git push origin mvp", "> deploying to prod...", "> 3 month
 const bg = document.getElementById("bg");
 const add = (cls, html, css) => { const p = document.createElement("pre"); p.className = cls; p.innerHTML = html; Object.assign(p.style, css); bg.appendChild(p); return p; };
 
-const RK = [["          ▲          ", "          h          "], ["         ▟█▙         ", "         hrd         "], ["        ▟███▙        ", "        hrrdd        "], ["       ▟█████▙       ", "       hhrrrdd       "], ["       ███████       ", "       hrrrrdd       "], ["       ▀▀▀▀▀▀▀       ", "       rrrrrrr       "], ["       ▌‿‿‿‿‿▐       ", "       esssssse      "], ["       ▌     ▐       ", "       eWWWWWe       "], ["       ▌  J  ▐       ", "       eWWtWWe       "], ["       ▌  V  ▐       ", "       eWWtWWe       "], ["       ▌  A  ▐       ", "       eWWtWWe       "], ["     ▗▟▌•   •▐▙▖     ", "     hheoWWWoerd     "], ["    ▗██▌ ▐█▌ ▐██▖    ", "    hrreWhrdWerdd    "], ["   ▗███▌•▐█▌•▐███▖   ", "   hrrreohrdoerrdd   "], ["  ▗████▌◡▐█▌◡▐████▖  ", "  hrrrrebhrdberrrdd  "], ["  ▀▀▀▀▀▀▀▐█▌▀▀▀▀▀▀▀  ", "  rrrrrrrhrdrrrrrrr  "], ["   ▐▓▌   ▐▓▌   ▐▓▌   ", "   nnn   nnn   nnn   "]];
+const RK = [["          ▲          ", "          h          "], ["         ▟█▙         ", "         hrd         "], ["        ▟███▙        ", "        hrrdd        "], ["       ▟█████▙       ", "       hhrrrdd       "], ["       ███████       ", "       hrrrrdd       "], ["       ▀▀▀▀▀▀▀       ", "       rrrrrrr       "], ["       ▌‿‿‿‿‿▐       ", "       essssse       "], ["       ▌     ▐       ", "       eWWWWWe       "], ["       ▌  J  ▐       ", "       eWWtWWe       "], ["       ▌  V  ▐       ", "       eWWtWWe       "], ["       ▌  A  ▐       ", "       eWWtWWe       "], ["     ▗▟▌•   •▐▙▖     ", "     hheoWWWoerd     "], ["    ▗██▌ ▐█▌ ▐██▖    ", "    hrreWhrdWerdd    "], ["   ▗███▌•▐█▌•▐███▖   ", "   hrrreohrdoerrdd   "], ["  ▗████▌◡▐█▌◡▐████▖  ", "  hrrrrebhrdberrrdd  "], ["  ▀▀▀▀▀▀▀▐█▌▀▀▀▀▀▀▀  ", "  rrrrrrrhrdrrrrrrr  "], ["   ▐▓▌   ▐▓▌   ▐▓▌   ", "   nnn   nnn   nnn   "]];
 const FL = [["█▓@#","f0"],["#@%&","f1"],["*%&$+","f2"],["+=:~","f3"],[".:'`","f3"]];
 const NOZ = [4, 10, 16];
 const rowHTML = arr => { let s = "", cur = null, buf = ""; for (const [ch, k] of arr.concat([["", "§"]])) { if (k !== cur) { if (buf) s += cur && cur !== " " ? `<i class="${cur}">${buf}</i>` : buf; buf = ""; cur = k; } buf += ch; } return s; };
