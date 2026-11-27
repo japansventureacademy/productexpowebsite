@@ -26,7 +26,9 @@ h3{font-size:20px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* ---------- living background ---------- */
-#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;opacity:.9}
+#far,#mid,#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+#far{opacity:.62;filter:blur(.5px) saturate(.85)}
+#mid{opacity:.82;filter:blur(.2px)}
 #hud{position:fixed;left:14px;bottom:10px;z-index:2;font:11px "JetBrains Mono",monospace;color:rgba(201,166,255,.55);pointer-events:none;white-space:nowrap}
 .hero .tag,.hero .count span{text-shadow:0 0 8px #000,0 0 18px #000}
 .hero .tag{display:inline-block;background:rgba(7,4,12,.72);padding:8px 16px;border-radius:10px;backdrop-filter:blur(3px)}
@@ -160,6 +162,8 @@ footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
 </head>
 <body>
 
+<canvas id="far" aria-hidden="true"></canvas>
+<canvas id="mid" aria-hidden="true"></canvas>
 <canvas id="rain" aria-hidden="true"></canvas>
 <div id="bg" aria-hidden="true"></div>
 <div class="scan" aria-hidden="true"></div>
@@ -520,30 +524,12 @@ const drawRockets = () => rockets.forEach(p => { const f = (+p.dataset.f + 1) % 
 drawRockets();
 if (!reduce) setInterval(drawRockets, 140);
 
-add("bulb", bulb, {left:"74%", top:"8%"});
-add("bulb hide-sm", bulb, {left:"3%", top:"48%", animationDelay:"-2s"});
-add("gear", esc(gear), {left:"3%", top:"28%"});
-add("gear r hide-sm", esc(gear), {left:"88%", top:"58%"});
-add("gear hide-sm", esc(gear), {left:"30%", top:"84%", animationDuration:"20s"});
-add("planet hide-sm", esc(planet), {left:"26%", top:"8%"});
-const term = add("term hide-sm", "", {left:"71%", top:"88%"});
-let tl = 0, tc = 0, shown = [];
-const typeTerm = () => {
-  const line = termLines[tl % termLines.length];
-  const cur = line.slice(0, tc);
-  term.textContent = "+------------------------------+\n" + [...shown, cur + "▌"].map(l => "| " + l.padEnd(29) + "|").join("\n") + "\n+------------------------------+";
-  if (tc < line.length) { tc++; setTimeout(typeTerm, 60); }
-  else { shown.push(line); if (shown.length > 3) shown.shift(); tl++; tc = 0; setTimeout(typeTerm, 900); }
-};
-reduce ? (term.textContent = termLines.slice(0,4).join("\n")) : typeTerm();
 
-/* ---------- ASCII universe: black holes, galaxy, stars, code rain, words ---------- */
-const cv = document.getElementById("rain"), ctx = cv.getContext("2d");
+/* ---------- ASCII universe in depth layers: far (galaxy, violet hole), mid (gold hole), near (stars, rain, words) ---------- */
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const RAMP = " .`:,;'-~=+ilrtjfxvczunoaeYJCLQ0OZmwqpdbkhX*%#&8B$@";
 const RAIN = "01アイウエオカキクケコサシスセソタチツテト{}<>/\\#$%&*+=JVA2026λΣΔ";
 const WORDS = ["JAPAN'S VENTURE ACADEMY","STARTUP","JAPAN","SHIBUYA","AMBITIOUS","STUDENTS","BUILD","SHIP IT","PRODUCT EXPO","COHORT 08","FOUNDERS","DEMO DAY","渋谷","起業","TOKYO","LAUNCH","IDEA → PRODUCT","DEC 15 2026","MVP","INNOVATE"];
-/* palettes: [r,g,b] stops low → high */
 const PAL = {
   gold:   [[120,42,16],[205,92,30],[248,152,62],[255,212,145],[255,250,235]],
   violet: [[90,45,150],[150,80,210],[205,130,235],[245,180,195],[255,248,250]],
@@ -557,162 +543,161 @@ const COLORS = PKEYS.map(k => Array.from({length: LV}, (_, i) => {
   const s = PAL[k], f = i / (LV - 1) * (s.length - 1), a = Math.floor(f), b = Math.min(a + 1, s.length - 1), u = f - a;
   return `rgb(${s[a].map((v, j) => Math.round(v + (s[b][j] - v) * u)).join(",")})`;
 }));
-let W, H, CW, CH, COLS, ROWS, N, inten, pal, chr, dpr, objs = [];
 const hash = (x, y) => { const s = Math.sin(x * 127.1 + y * 311.7) * 43758.5453; return s - Math.floor(s); };
-let seed;
-const setup = () => {
-  dpr = Math.min(devicePixelRatio || 1, 2);
-  W = innerWidth; H = innerHeight;
-  cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + "px"; cv.style.height = H + "px";
-  const fsz = W < 600 ? 8 : 10;
-  CH = fsz * 1.1; CW = fsz * 0.6; COLS = Math.ceil(W / CW); ROWS = Math.ceil(H / CH); N = COLS * ROWS;
-  inten = new Float32Array(N); pal = new Uint8Array(N); chr = new Uint16Array(N);
-  seed = new Float32Array(N); for (let i = 0; i < N; i++) seed[i] = hash(i % COLS, (i / COLS) | 0);
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.font = `${fsz}px "JetBrains Mono", ui-monospace, monospace`; ctx.textBaseline = "top";
-  const m = Math.min(W, H), mob = W < 760;
-  objs = mob ? [
-    {type: "garg", x: .5 * W, y: .56 * H, R: W * .13, p: 0},
-    {type: "quasar", x: .2 * W, y: .9 * H, R: W * .07, p: 1},
-    {type: "galaxy", x: .8 * W, y: .1 * H, R: W * .22, p: 2}
-  ] : [
-    {type: "garg", x: .5 * W, y: .62 * H, R: m * .12, p: 0},
-    {type: "quasar", x: .14 * W, y: .84 * H, R: m * .065, p: 1},
-    {type: "galaxy", x: .9 * W, y: .17 * H, R: m * .15, p: 2}
-  ];
-  rain = Array.from({length: COLS}, () => ({y: Math.random() * -ROWS, v: .25 + Math.random() * .6, len: 8 + Math.random() * 22, on: Math.random() < .35}));
-};
-let rain = [], words = [], nextWord = 1.5;
-const put = (i, v, p) => { inten[i] = v; pal[i] = p; chr[i] = Math.random() < .04 ? RAIN.charCodeAt((Math.random() * RAIN.length) | 0) : RAMP.charCodeAt(Math.min(RAMP.length - 1, 1 + Math.floor(v * (RAMP.length - 2) * (0.7 + seed[i] * .6)))); };
 
-/* per-object renderers; write into cells within bounding box */
-const renderGarg = (o, t) => {
-  const R = o.R, cosI = .24, ext = R * 5.4;
-  const c0 = Math.max(0, ((o.x - ext) / CW) | 0), c1 = Math.min(COLS - 1, ((o.x + ext) / CW) | 0);
-  const r0 = Math.max(0, ((o.y - R * 2.2) / CH) | 0), r1 = Math.min(ROWS - 1, ((o.y + R * 2.2) / CH) | 0);
+/* one grid of glyphs on its own canvas */
+const makeLayer = (cv, fsz, gain, para) => {
+  const L = {cv, ctx: cv.getContext("2d"), fsz, gain, para, objs: []};
+  L.setup = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; cv.style.width = W + "px"; cv.style.height = H + "px";
+    L.W = W; L.H = H; L.CH = L.fsz() * 1.1; L.CW = L.fsz() * .6;
+    L.COLS = Math.ceil(W / L.CW); L.ROWS = Math.ceil(H / L.CH); L.N = L.COLS * L.ROWS;
+    L.inten = new Float32Array(L.N); L.pal = new Uint8Array(L.N); L.chr = new Uint16Array(L.N); L.seed = new Float32Array(L.N);
+    for (let i = 0; i < L.N; i++) L.seed[i] = hash(i % L.COLS, (i / L.COLS) | 0);
+    L.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    L.ctx.font = `${L.fsz()}px "JetBrains Mono", ui-monospace, monospace`; L.ctx.textBaseline = "top";
+  };
+  L.put = (i, v, p) => {
+    v = Math.min(1, v); L.inten[i] = v * L.gain; L.pal[i] = p;
+    L.chr[i] = Math.random() < .04 ? RAIN.charCodeAt((Math.random() * RAIN.length) | 0)
+      : RAMP.charCodeAt(Math.min(RAMP.length - 1, 1 + Math.floor(v * (RAMP.length - 2) * (.7 + L.seed[i] * .6))));
+  };
+  L.box = (o, ex, ey) => [Math.max(0, ((o.x - ex) / L.CW) | 0), Math.min(L.COLS - 1, ((o.x + ex) / L.CW) | 0), Math.max(0, ((o.y - ey) / L.CH) | 0), Math.min(L.ROWS - 1, ((o.y + ey) / L.CH) | 0)];
+  L.draw = () => {
+    const ctx = L.ctx, buckets = new Map(); let n = 0;
+    ctx.clearRect(0, 0, L.W, L.H);
+    for (let i = 0; i < L.N; i++) {
+      const v = L.inten[i]; if (v <= .05) continue;
+      const key = L.pal[i] * LV + Math.min(LV - 1, (v * (LV - 1)) | 0);
+      let b = buckets.get(key); if (!b) buckets.set(key, b = []); b.push(i);
+    }
+    for (const [key, list] of buckets) {
+      ctx.fillStyle = COLORS[(key / LV) | 0][key % LV];
+      for (const i of list) ctx.fillText(String.fromCharCode(L.chr[i]), (i % L.COLS) * L.CW, ((i / L.COLS) | 0) * L.CH);
+      n += list.length;
+    }
+    return n;
+  };
+  return L;
+};
+
+const renderGarg = (L, o, t) => {
+  const R = o.R, cosI = .24, [c0, c1, r0, r1] = L.box(o, R * 5.4, R * 2.2);
   for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
-    const i = r * COLS + c, X = (c * CW + CW / 2 - o.x) / R, Y = (r * CH + CH / 2 - o.y) / R;
-    const rr = Math.hypot(X, Y);
-    // thin disk, nearly edge-on
-    const Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X);
+    const i = r * L.COLS + c, X = (c * L.CW + L.CW / 2 - o.x) / R, Y = (r * L.CH + L.CH / 2 - o.y) / R;
+    const rr = Math.hypot(X, Y), Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X);
     let v = 0;
     if (rd > 1.45 && rd < 5.3) {
-      const w = 1.6 / Math.pow(rd, 1.5), pp = ph - w * t;
+      const pp = ph - 1.6 / Math.pow(rd, 1.5) * t;
       const tex = .72 + .18 * Math.sin(9 * rd + 4 * pp) + .12 * Math.sin(23 * rd - 7 * pp + 1.3);
-      const dop = 1 + .55 * Math.cos(ph);                         // approaching side brighter
-      const fall = Math.exp(-(rd - 1.45) / 2.2) * Math.min(1, (5.3 - rd) * 1.2) * Math.min(1, (rd - 1.45) * 6);
-      v = tex * dop * fall;
-      if (Y < 0 && rr < 1.02) v = 0;                               // back of disk hidden by shadow
+      v = tex * (1 + .55 * Math.cos(ph)) * Math.exp(-(rd - 1.45) / 2.2) * Math.min(1, (5.3 - rd) * 1.2) * Math.min(1, (rd - 1.45) * 6);
+      if (Y < 0 && rr < 1.02) v = 0;
     }
-    // lensed halo / photon ring around the shadow
     if (rr > 1 && rr < 2.1) {
       const a = Math.atan2(Y, X), pp = a - .9 * t;
       const h = 1.5 * Math.exp(-(rr - 1.04) / .3) * (.72 + .2 * Math.sin(11 * rr + 5 * pp) + .15 * Math.sin(3 * pp)) * (.75 + .25 * Math.abs(Math.sin(a)));
-      const ring = Math.exp(-Math.pow((rr - 1.07) / .05, 2)) * 1.3;
-      v = Math.max(v, h * (1 + .35 * Math.cos(a)) + ring);
+      v = Math.max(v, h * (1 + .35 * Math.cos(a)) + Math.exp(-Math.pow((rr - 1.07) / .05, 2)) * 1.3);
     }
-    if (rr <= 1 && !(Y > 0 && rd > 1.45 && v > 0)) { inten[i] = -1; continue; } // event horizon
-    if (v > .16) put(i, Math.min(1, Math.pow(v, .7) * 1.15), 0);
+    if (rr <= 1 && !(Y > 0 && rd > 1.45 && v > 0)) { L.inten[i] = 0; continue; }
+    if (v > .16) L.put(i, Math.pow(v, .7) * 1.15, 0);
   }
 };
-const renderQuasar = (o, t) => {
-  const R = o.R, cosI = .62, ext = R * 3.6;
-  const c0 = Math.max(0, ((o.x - ext) / CW) | 0), c1 = Math.min(COLS - 1, ((o.x + ext) / CW) | 0);
-  const r0 = Math.max(0, ((o.y - ext) / CH) | 0), r1 = Math.min(ROWS - 1, ((o.y + ext) / CH) | 0);
-  const wob = .08 * Math.sin(t * .7);
+const renderQuasar = (L, o, t) => {
+  const R = o.R, cosI = .62, [c0, c1, r0, r1] = L.box(o, R * 3.6, R * 3.6), wob = .08 * Math.sin(t * .7);
   for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
-    const i = r * COLS + c, X = (c * CW + CW / 2 - o.x) / R, Y = (r * CH + CH / 2 - o.y) / R;
+    const i = r * L.COLS + c, X = (c * L.CW + L.CW / 2 - o.x) / R, Y = (r * L.CH + L.CH / 2 - o.y) / R;
     const a = Math.atan2(Y, X), rr = Math.hypot(X, Y) * (1 + wob * Math.sin(2 * a + t));
-    if (rr < 1) { inten[i] = -1; continue; }
-    const Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X);
-    const pp = ph - 1.2 / rd * t;
+    if (rr < 1) { L.inten[i] = 0; continue; }
+    const Yd = Y / cosI, rd = Math.hypot(X, Yd), ph = Math.atan2(Yd, X), pp = ph - 1.2 / rd * t;
     const arm = .5 + .5 * Math.sin(2 * pp + 3.2 * Math.log(rd));
     let v = Math.exp(-Math.pow((rd - 1.7) / 1.1, 2)) * (.45 + .55 * arm) * (1 + .4 * Math.cos(ph + .6));
-    v += Math.exp(-Math.pow((rr - 1.08) / .09, 2)) * 1.1;              // bright inner rim
-    if (v > .14) put(i, Math.min(1, Math.pow(v, .7) * 1.15), 1);
+    v += Math.exp(-Math.pow((rr - 1.08) / .09, 2)) * 1.1;
+    if (v > .14) L.put(i, Math.pow(v, .7) * 1.15, 1);
   }
 };
-const renderGalaxy = (o, t) => {
-  const R = o.R, cosI = .5, ext = R * 1.15;
-  const c0 = Math.max(0, ((o.x - ext) / CW) | 0), c1 = Math.min(COLS - 1, ((o.x + ext) / CW) | 0);
-  const r0 = Math.max(0, ((o.y - ext * cosI) / CH) | 0), r1 = Math.min(ROWS - 1, ((o.y + ext * cosI) / CH) | 0);
-  const rot = -.5;
+const renderGalaxy = (L, o, t) => {
+  const R = o.R, cosI = .5, rot = -.5, [c0, c1, r0, r1] = L.box(o, R * 1.15, R * 1.15 * cosI + R * .3);
   for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
-    const i = r * COLS + c; let X = (c * CW + CW / 2 - o.x) / R, Y = (r * CH + CH / 2 - o.y) / R;
+    const i = r * L.COLS + c, X = (c * L.CW + L.CW / 2 - o.x) / R, Y = (r * L.CH + L.CH / 2 - o.y) / R;
     const Xr = X * Math.cos(rot) - Y * Math.sin(rot), Yr = (X * Math.sin(rot) + Y * Math.cos(rot)) / cosI;
     const rd = Math.hypot(Xr, Yr); if (rd > 1.1) continue;
     const ph = Math.atan2(Yr, Xr) - .25 * t;
     const arm = Math.pow(.5 + .5 * Math.cos(2 * ph - 9 * Math.log(rd + .05)), 3);
-    let v = Math.exp(-rd * 3.2) * 1.4 + arm * Math.exp(-rd * 2.2) * .8 * (0.7 + .3 * seed[i]);
-    if (v > .1) put(i, Math.min(1, Math.pow(v, .7) * 1.5), 2);
+    const v = Math.exp(-rd * 3.2) * 1.4 + arm * Math.exp(-rd * 2.2) * .8 * (.7 + .3 * L.seed[i]);
+    if (v > .1) L.put(i, Math.pow(v, .7) * 1.5, 2);
   }
 };
 
+const mob = () => innerWidth < 760;
+const far  = makeLayer(document.getElementById("far"),  () => mob() ? 5 : 6, .62, .012);
+const mid  = makeLayer(document.getElementById("mid"),  () => mob() ? 6.5 : 8, .9, .025);
+const near = makeLayer(document.getElementById("rain"), () => mob() ? 8 : 10, 1, 0);
+const layers = [far, mid, near];
+let rain = [], words = [], nextWord = 1.5;
+const setup = () => {
+  layers.forEach(L => L.setup());
+  const W = innerWidth, H = innerHeight, m = Math.min(W, H);
+  mid.objs = mob() ? [{f: renderGarg, x: .5 * W, y: .55 * H, R: W * .09}] : [{f: renderGarg, x: .52 * W, y: .6 * H, R: m * .085}];
+  far.objs = mob() ? [
+    {f: renderQuasar, x: .22 * W, y: .86 * H, R: W * .05},
+    {f: renderGalaxy, x: .8 * W, y: .12 * H, R: W * .17}
+  ] : [
+    {f: renderQuasar, x: .15 * W, y: .8 * H, R: m * .045},
+    {f: renderGalaxy, x: .87 * W, y: .2 * H, R: m * .12}
+  ];
+  rain = Array.from({length: near.COLS}, () => ({y: Math.random() * -near.ROWS, v: .25 + Math.random() * .6, len: 8 + Math.random() * 22, on: Math.random() < .3}));
+};
+
 const frame = now => {
-  const t = now / 1000;
-  inten.fill(0);
-  // stars + dust
-  for (let i = 0; i < N; i++) {
-    const s = seed[i];
-    if (s > .9965) { const tw = .5 + .5 * Math.sin(t * (1 + s * 3) + i); inten[i] = .3 + .7 * tw; pal[i] = 5; chr[i] = (s > .9992 ? 43 : s > .998 ? 42 : 46); }
-    else if (s < .012) { inten[i] = .12; pal[i] = 5; chr[i] = s < .004 ? 58 : 46; }
+  const t = now / 1000, sy = scrollY;
+  let glyphs = 0;
+  // far + mid: faint distant stars, then their cosmic objects (with slower parallax = further away)
+  for (const L of [far, mid]) {
+    L.inten.fill(0);
+    if (L === far) for (let i = 0; i < L.N; i++) { const s = L.seed[i]; if (s > .997) { L.inten[i] = .25 + .2 * Math.sin(t * 2 + i); L.pal[i] = 5; L.chr[i] = 46; } }
+    for (const o of L.objs) o.f(L, {...o, y: o.y - sy * L.para}, t);
+    glyphs += L.draw();
   }
-  // code rain
-  for (let c = 0; c < COLS; c++) {
+  // near: bright stars, code rain, words
+  const L = near; L.inten.fill(0);
+  for (let i = 0; i < L.N; i++) {
+    const s = L.seed[i];
+    if (s > .9975) { L.inten[i] = .3 + .7 * (.5 + .5 * Math.sin(t * (1 + s * 3) + i)); L.pal[i] = 5; L.chr[i] = s > .9993 ? 43 : s > .9985 ? 42 : 46; }
+  }
+  for (let c = 0; c < L.COLS; c++) {
     const d = rain[c]; if (!d.on) { if (Math.random() < .002) d.on = true; continue; }
     d.y += d.v;
-    if (d.y - d.len > ROWS) { d.y = -Math.random() * 20; d.on = Math.random() < .5; d.v = .25 + Math.random() * .6; }
+    if (d.y - d.len > L.ROWS) { d.y = -Math.random() * 20; d.on = Math.random() < .45; d.v = .25 + Math.random() * .6; }
     const head = d.y | 0;
     for (let k = 0; k < d.len; k++) {
-      const r = head - k; if (r < 0 || r >= ROWS) continue;
-      const i = r * COLS + c, f = 1 - k / d.len;
-      inten[i] = k === 0 ? 1 : f * .6; pal[i] = k === 0 && seed[i] < .2 ? 4 : 3;
-      if (k === 0 || Math.random() < .04 || chr[i] < 48) chr[i] = RAIN.charCodeAt((Math.random() * RAIN.length) | 0);
+      const r = head - k; if (r < 0 || r >= L.ROWS) continue;
+      const i = r * L.COLS + c;
+      L.inten[i] = k === 0 ? 1 : (1 - k / d.len) * .55; L.pal[i] = k === 0 && L.seed[i] < .2 ? 4 : 3;
+      if (k === 0 || Math.random() < .04 || L.chr[i] < 48) L.chr[i] = RAIN.charCodeAt((Math.random() * RAIN.length) | 0);
     }
   }
-  // cosmic objects (parallax with scroll)
-  const sy = scrollY * .04;
-  for (const o of objs) {
-    const oo = {...o, y: o.y - sy};
-    if (o.type === "garg") renderGarg(oo, t); else if (o.type === "quasar") renderQuasar(oo, t); else renderGalaxy(oo, t);
-  }
-  // shimmering glyphs inside objects
-  // words
+  glyphs += L.draw();
   if (t > nextWord && words.length < 3) {
     const w = WORDS[(Math.random() * WORDS.length) | 0];
-    words.push({w, c: Math.max(1, ((Math.random() * (COLS - w.length - 2)) | 0)), r: 2 + ((Math.random() * (ROWS - 4)) | 0), b: t, life: 4 + Math.random() * 2, p: Math.random() < .3 ? 4 : 5});
+    words.push({w, c: Math.max(1, (Math.random() * (L.COLS - w.length - 2)) | 0), r: 2 + ((Math.random() * (L.ROWS - 4)) | 0), b: t, life: 4 + Math.random() * 2, p: Math.random() < .3 ? 4 : 5});
     nextWord = t + 1.2 + Math.random() * 2.2;
   }
   words = words.filter(o => t - o.b < o.life);
-  // draw
-  ctx.clearRect(0, 0, W, H);
-  const buckets = new Map();
-  let glyphs = 0;
-  for (let i = 0; i < N; i++) {
-    const v = inten[i]; if (v <= 0.05) continue;
-    const key = pal[i] * LV + Math.min(LV - 1, (v * (LV - 1)) | 0);
-    let b = buckets.get(key); if (!b) buckets.set(key, b = []); b.push(i);
-  }
-  for (const [key, list] of buckets) {
-    ctx.fillStyle = COLORS[(key / LV) | 0][key % LV];
-    for (const i of list) { ctx.fillText(String.fromCharCode(chr[i]), (i % COLS) * CW, ((i / COLS) | 0) * CH); }
-    glyphs += list.length;
-  }
-  ctx.save(); ctx.shadowBlur = 10;
+  const ctx = L.ctx; ctx.save(); ctx.shadowBlur = 10;
   for (const o of words) {
-    const age = t - o.b, fade = Math.min(1, age * 3, (o.life - age) * 1.5);
-    ctx.globalAlpha = Math.max(0, fade);
+    const age = t - o.b; ctx.globalAlpha = Math.max(0, Math.min(1, age * 3, (o.life - age) * 1.5));
     ctx.shadowColor = o.p === 4 ? "#ff2d4f" : "#b98cff";
     for (let k = 0; k < o.w.length; k++) {
       const lt = age - k * .05; if (lt < 0) break;
       const ch = lt < .35 ? RAIN[(Math.random() * RAIN.length) | 0] : o.w[k];
       ctx.fillStyle = lt < .35 ? "#9b5cff" : (o.p === 4 ? "#ff6e86" : "#ffffff");
-      const x = (o.c + k) * CW, y = o.r * CH;
-      ctx.clearRect(x, y, CW, CH); ctx.fillText(ch, x, y);
+      const x = (o.c + k) * L.CW, y = o.r * L.CH;
+      ctx.clearRect(x, y, L.CW, L.CH); ctx.fillText(ch, x, y);
     }
   }
   ctx.restore();
-  hud && (hud.textContent = `JVA://UNIVERSE · glyphs ${glyphs.toLocaleString()} · running · ${fps} fps`);
+  hud && (hud.textContent = `JVA://UNIVERSE · 3 layers · glyphs ${glyphs.toLocaleString()} · running · ${fps} fps`);
 };
 const hud = document.getElementById("hud");
 let fps = 0, fc = 0, fl = performance.now(), last = 0;
