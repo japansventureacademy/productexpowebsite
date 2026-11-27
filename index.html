@@ -129,7 +129,7 @@ tr:hover td{background:rgba(155,92,255,.08)}
 .card pre{margin:0 0 14px;font-size:13px;line-height:1.15;color:var(--pur2);text-shadow:0 0 8px rgba(155,92,255,.6)}
 .card .role{font:700 13px "JetBrains Mono",monospace;color:var(--red)}
 .card p{margin:6px 0 0;color:var(--dim);font-size:15px}
-.redact{display:inline-block;background:#fff;color:#fff;border-radius:2px;user-select:none;letter-spacing:-1px}
+.redact{display:inline-block;max-width:100%;overflow:hidden;white-space:nowrap;vertical-align:middle;background:#fff;color:#fff;border-radius:2px;user-select:none;letter-spacing:-1px}
 .booth{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:22px;align-items:center;margin-top:20px;border-color:rgba(255,45,79,.5);background:linear-gradient(90deg,rgba(255,45,79,.16),rgba(14,8,24,.85))}
 .booth pre{margin:0;color:var(--red2);font-size:13px;line-height:1.15}
 
@@ -148,6 +148,31 @@ ul.ticks li::before{content:">";position:absolute;left:4px;color:var(--red);font
 .apply-cta .mono{font-size:13px;color:var(--dim)}
 .btn.big{min-height:60px;padding:0 34px;font-size:20px}
 @media(max-width:860px){.apply{grid-template-columns:minmax(0,1fr)}.apply-cta{align-items:stretch}}
+.menu-btn{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:0 11px;border:1px solid var(--line);border-radius:8px;background:rgba(14,8,24,.8);cursor:pointer}
+.menu-btn span{display:block;height:2px;background:#fff;border-radius:2px;transition:transform .2s,opacity .2s}
+nav.open .menu-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}nav.open .menu-btn span:nth-child(2){opacity:0}nav.open .menu-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media(max-width:600px){
+  .band{padding:34px 14px}
+  .panel{padding:20px 18px;border-radius:12px}
+  #speakers>.wrap,#startups>.wrap,#sponsors>.wrap{background:rgba(14,8,24,.85);border:1px solid var(--line);border-radius:12px;padding:20px 16px;backdrop-filter:blur(6px)}
+  .grid,#teams{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px;margin-top:18px}
+  .card{padding:14px 12px}.card pre{font-size:10px;margin-bottom:10px}.card h3{font-size:15px}.card p{font-size:13px}
+  .spons{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.spons div{height:72px;font-size:12px}
+  .lead{font-size:16px}
+  .hero{padding:28px 12px 40px;min-height:auto}
+  .tag{margin-top:18px}
+  .chip{font-size:14px;padding:8px 12px}
+  .count{margin-bottom:22px}
+  .cta .btn{flex:1 1 100%}
+  #hud{display:none}
+  .rocket{opacity:.45!important}
+  td.t{font-size:18px}
+  .stat{padding:14px}.stat strong{font-size:22px}
+  dl.info{gap:8px 12px}
+  .radar{font-size:9px}
+  .apply-cta .btn.big{min-height:56px;font-size:19px}
+  .luma iframe{height:560px}
+}
 /* ---------- venue / faq / sponsors ---------- */
 .venue{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
 .radar{margin:0;font-size:clamp(11px,1.5vw,17px);line-height:1.15;color:var(--pur2);text-align:center;overflow:hidden}
@@ -166,7 +191,11 @@ details p{margin:0 0 18px;color:var(--dim);max-width:70ch}
 footer{padding:40px max(5vw,16px) 60px;border-top:1px solid var(--line);background:rgba(7,4,12,.9);text-align:center;color:var(--dim);font-size:14px}
 footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
 
-@media(max-width:860px){.about,.reg,.venue{grid-template-columns:minmax(0,1fr)}.booth{grid-template-columns:minmax(0,1fr)}.booth pre{display:none}#bg .hide-sm{display:none}nav .links{display:none}nav .btn{margin-left:auto}}
+@media(max-width:860px){.about,.reg,.venue{grid-template-columns:minmax(0,1fr)}.booth{grid-template-columns:minmax(0,1fr)}.booth pre{display:none}#bg .hide-sm{display:none}nav .btn{margin-left:auto}
+nav .links{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;gap:0;margin:0;padding:6px 16px 14px;background:rgba(7,4,12,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+nav.open .links{display:flex}
+nav .links a{padding:14px 6px;font-size:17px;border-bottom:1px solid rgba(169,112,255,.12);border-radius:0}
+.menu-btn{display:inline-flex}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 </head>
@@ -181,11 +210,12 @@ footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
 
 <nav>
   <a class="logo" href="#top">JVA<span>://</span>EXPO_26</a>
-  <div class="links">
+  <div class="links" id="navlinks">
     <a href="#about">About</a><a href="#schedule">Schedule</a><a href="#venue">Venue</a><a href="#speakers">Speakers</a>
     <a href="#startups">Startups</a><a href="#apply">Apply</a><a href="#faq">FAQ</a>
   </div>
   <a class="btn" href="#register">Register</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
 
 <header class="hero" id="top">
@@ -370,6 +400,11 @@ const CONFIG = {
 };
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- mobile menu ---------- */
+const navEl = document.querySelector("nav"), menuBtn = document.querySelector(".menu-btn");
+menuBtn.addEventListener("click", () => { const o = navEl.classList.toggle("open"); menuBtn.setAttribute("aria-expanded", o); menuBtn.setAttribute("aria-label", o ? "Close menu" : "Open menu"); });
+document.querySelectorAll("#navlinks a").forEach(a => a.addEventListener("click", () => { navEl.classList.remove("open"); menuBtn.setAttribute("aria-expanded", false); }));
 
 /* ---------- schedule ---------- */
 const schedule = [
@@ -784,7 +819,7 @@ const hud = document.getElementById("hud");
 let fps = 0, fc = 0, fl = performance.now(), last = 0;
 const loop = now => {
   requestAnimationFrame(loop);
-  if (now - last < 40) return; last = now;
+  if (now - last < (innerWidth < 760 ? 66 : 40)) return; last = now;
   frame(now); fc++;
   if (now - fl > 1000) { fps = fc; fc = 0; fl = now; }
 };
