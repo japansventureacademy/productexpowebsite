@@ -215,7 +215,9 @@ details p{margin:0 0 18px;color:var(--dim);max-width:70ch}
 .spons{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-top:24px}
 .spons div{height:96px;display:grid;place-items:center;border:1px dashed var(--line);border-radius:10px;font:600 14px "JetBrains Mono",monospace;color:var(--dim);background:rgba(14,8,24,.6)}
 footer{padding:40px max(5vw,16px) 60px;border-top:1px solid var(--line);background:rgba(7,4,12,.9);text-align:center;color:var(--dim);font-size:14px}
-footer pre{color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.1}
+footer pre{display:inline-block;max-width:100%;overflow-x:auto;text-align:left;color:var(--pur);font-size:12px;margin:0 0 14px;line-height:1.2}
+footer pre b{color:var(--red);text-shadow:0 0 8px var(--red)}
+@media(max-width:600px){footer pre{font-size:9px}}
 
 @media(max-width:860px){.about,.reg,.venue{grid-template-columns:minmax(0,1fr)}.booth{grid-template-columns:minmax(0,1fr)}.booth pre{display:none}#bg .hide-sm{display:none}nav .btn{margin-left:auto}
 nav .links{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;gap:0;margin:0;padding:6px 16px 14px;background:rgba(7,4,12,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
@@ -417,9 +419,12 @@ nav .links a{padding:14px 6px;font-size:17px;border-bottom:1px solid rgba(169,11
 </main>
 
 <footer>
-<pre aria-hidden="true">   .--.      ___
-  / /\ \    | | |   build &gt; ship &gt; launch
- /_/  \_\   |_|_|</pre>
+<pre aria-hidden="true">    /\
+   /  \
+  | JV |   build &gt; <b>fail</b> &gt; build &gt; ship &gt; launch
+  |_A__|
+  /_/\_\</pre>
+  <p class="sr">build, fail, build, ship, launch</p>
   <p>JVA Startup Product Expo 2026 · Japan's Venture Academy · Dec 15, 2026 · Sakura Deeptech Shibuya</p>
 </footer>
 
