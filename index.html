@@ -172,7 +172,29 @@ nav.open .menu-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}nav
   .radar{font-size:9px}
   .apply-cta .btn.big{min-height:56px;font-size:19px}
   .luma iframe{height:560px}
+  /* app-like: swipeable card rails, bottom action bar, smaller rockets */
+  .rocket{font-size:4px!important;opacity:.6!important}
+  #bg .rocket.hide-sm{display:block}
+  .grid,#teams,.spons{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-16px;padding:4px 16px 14px;scroll-padding-inline:16px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .grid::-webkit-scrollbar,.spons::-webkit-scrollbar{display:none}
+  .grid>*,#teams>*{flex:0 0 74%;scroll-snap-align:start}
+  .spons>*{flex:0 0 46%;scroll-snap-align:start}
+  body .swipe{display:flex}
+  details{background:rgba(14,8,24,.7);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;padding:0 14px}
+  details p{margin-bottom:14px}
+  summary{font-size:16px;padding:16px 32px 16px 0}
+  nav>.btn{display:none}
+  body .appbar{display:flex}
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
 }
+.swipe{display:none;align-items:center;gap:8px;margin-top:14px;font:600 12px "JetBrains Mono",monospace;color:var(--dim);letter-spacing:.08em}
+.swipe b{color:var(--red);animation:nudge 1.4s ease-in-out infinite}
+@keyframes nudge{50%{transform:translateX(6px)}}
+.appbar{display:none;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:60;align-items:center;gap:10px;padding:10px 10px 10px 16px;background:rgba(10,6,18,.92);border:1px solid var(--line);border-radius:16px;backdrop-filter:blur(12px);box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 24px rgba(255,45,79,.18);transition:transform .3s,opacity .3s}
+.appbar.hide{transform:translateY(140%);opacity:0}
+.appbar .ab-info{flex:1;min-width:0;font:600 12px/1.35 "JetBrains Mono",monospace;color:var(--dim)}
+.appbar .ab-info strong{display:block;color:#fff;font:700 15px "Chakra Petch",sans-serif}
+.appbar .btn{margin:0;padding:12px 18px;white-space:nowrap}
 /* ---------- venue / faq / sponsors ---------- */
 .venue{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:center}
 .radar{margin:0;font-size:clamp(11px,1.5vw,17px);line-height:1.15;color:var(--pur2);text-align:center;overflow:hidden}
@@ -217,6 +239,11 @@ nav .links a{padding:14px 6px;font-size:17px;border-bottom:1px solid rgba(169,11
   <a class="btn" href="#register">Register</a>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="navlinks" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
+
+<div class="appbar" id="appbar">
+  <div class="ab-info"><strong>Tue, Dec 15 · 18:30</strong>Sakura Deeptech Shibuya</div>
+  <a class="btn" href="#register">Register →</a>
+</div>
 
 <header class="hero" id="top">
   <div class="fit">
@@ -310,6 +337,7 @@ nav .links a{padding:14px 6px;font-size:17px;border-bottom:1px solid rgba(169,11
     <h2>Who's on stage</h2>
     <p class="lead">Coaches, founders and investors who'll be judging and speaking. Lineup announcement incoming.</p>
     <div class="grid" id="people"></div>
+    <div class="swipe" aria-hidden="true">SWIPE <b>→</b></div>
   </div>
 </section>
 
@@ -319,6 +347,7 @@ nav .links a{padding:14px 6px;font-size:17px;border-bottom:1px solid rgba(169,11
     <h2>Startups exhibiting</h2>
     <p class="lead">The Fall 2026 cohort teams are still under wraps. Their products get declassified on the night.</p>
     <div class="grid" id="teams" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr))"></div>
+    <div class="swipe" aria-hidden="true">SWIPE <b>→</b></div>
     <div class="panel booth">
       <pre aria-hidden="true">  _______
  |  JOB  |
@@ -402,6 +431,9 @@ const CONFIG = {
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ---------- mobile menu ---------- */
+const appbar = document.getElementById("appbar"), seen = new Set();
+new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? seen.add(e.target.id) : seen.delete(e.target.id)); appbar.classList.toggle("hide", seen.size > 0); }, {threshold: .15})
+  .observe(document.getElementById("register"));
 const navEl = document.querySelector("nav"), menuBtn = document.querySelector(".menu-btn");
 menuBtn.addEventListener("click", () => { const o = navEl.classList.toggle("open"); menuBtn.setAttribute("aria-expanded", o); menuBtn.setAttribute("aria-label", o ? "Close menu" : "Open menu"); });
 document.querySelectorAll("#navlinks a").forEach(a => a.addEventListener("click", () => { navEl.classList.remove("open"); menuBtn.setAttribute("aria-expanded", false); }));
@@ -746,18 +778,19 @@ const renderGalaxy = (L, o, t) => {
 };
 
 const mob = () => innerWidth < 760;
-const far  = makeLayer(document.getElementById("far"),  () => mob() ? 5 : 6, .62, .012);
-const mid  = makeLayer(document.getElementById("mid"),  () => mob() ? 6.5 : 8, .9, .025);
+const far  = makeLayer(document.getElementById("far"),  () => mob() ? 4 : 6, .62, .012);
+const mid  = makeLayer(document.getElementById("mid"),  () => mob() ? 4.6 : 8, .9, .025);
 const near = makeLayer(document.getElementById("rain"), () => mob() ? 8 : 10, 1, 0);
 const layers = [far, mid, near];
 let rain = [], words = [], nextWord = 1.5;
 const setup = () => {
   layers.forEach(L => L.setup());
   const W = innerWidth, H = innerHeight, m = Math.min(W, H);
-  mid.objs = mob() ? [{f: renderGarg, x: .5 * W, y: .55 * H, R: W * .11}] : [{f: renderGarg, x: .5 * W, y: .6 * H, R: m * .1}];
+  mid.objs = mob() ? [{f: renderGarg, x: .5 * W, y: .6 * H, R: W * .062}] : [{f: renderGarg, x: .5 * W, y: .6 * H, R: m * .1}];
   far.objs = mob() ? [
-    {f: renderQuasar, x: .22 * W, y: .86 * H, R: W * .05},
-    {f: renderGalaxy, x: .8 * W, y: .12 * H, R: W * .17}
+    {f: renderQuasar, x: .76 * W, y: .27 * H, R: W * .045},
+    {f: renderQuasar, x: .16 * W, y: .9 * H, R: W * .022},
+    {f: renderGalaxy, x: .24 * W, y: .13 * H, R: W * .16}
   ] : [
     {f: renderQuasar, x: .15 * W, y: .8 * H, R: m * .045},
     {f: renderGalaxy, x: .87 * W, y: .2 * H, R: m * .12}
